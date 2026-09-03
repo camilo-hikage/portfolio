@@ -2,22 +2,22 @@
 
 Site pessoal de página única.
 
-- **Hero "Explore the Space"**: 3 camadas de fundo (nebulosa + estrelas) que dão
-  zoom conforme a página rola.
+- **Hero "pôr do sol → noite"**: uma cena de colinas em camadas onde o céu, o sol,
+  as nuvens e as estrelas mudam conforme a página rola (variável `--p`, de 0 a 1).
 - **Seção "Planetas"**: Neptune, Jupiter e Saturn animam ao entrar na tela.
 
-A arte é **SVG própria**, gerada por `.claude/gen-space.js`. O efeito é adaptado
-do gist [Space Explore](https://gist.github.com/krishnaPC/969d74c4fc13285ee77e77269288dd11)
-de krishnaPC (sem sequestrar o scroll).
+Toda a arte é **SVG própria**, gerada por scripts em `.claude/`.
 
 ## Estrutura
 
 ```
 index.html             markup da página
-css/style.css           estilos + tokens de tema (espaço)
-js/space.js             zoom do hero (--p) + reveal dos planetas
-images/space/           bg-1..3, neptune, jupiter, saturn (SVG)
-.claude/gen-space.js    gerador da arte (node .claude/gen-space.js)
+css/style.css           estilos + tokens de tema
+js/hero.js              --p do hero (pôr do sol -> noite) + reveal dos planetas
+images/hills/           sol, nuvens, pássaro, estrelas e 6 colinas (SVG)
+images/space/           neptune, jupiter, saturn (SVG)
+.claude/gen-hills.js    gerador da cena do hero  (node .claude/gen-hills.js)
+.claude/gen-space.js    gerador dos planetas     (node .claude/gen-space.js)
 ```
 
 ## Rodar localmente
@@ -34,7 +34,5 @@ O repositório já inclui `.nojekyll`. Em **Settings → Pages**, selecione a br
 ## Personalizar
 
 - Nome, textos e nomes dos planetas: `index.html`
-- Cores do tema e intensidade do zoom (`--hero-scroll`): `css/style.css`
-- Força do zoom por camada: `#bg-1/#bg-2/#bg-3` em `css/style.css`
-- Arte (nebulosa, estrelas, planetas): `.claude/gen-space.js`, depois
-  `node .claude/gen-space.js` para regerar os SVGs
+- Cores do céu, duração da transição (`--hero-scroll`) e parallax das colinas: `css/style.css`
+- Formato das colinas, cores, nuvens, estrelas: `.claude/gen-hills.js` + `node .claude/gen-hills.js`

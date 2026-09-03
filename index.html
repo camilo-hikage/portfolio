@@ -4,29 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Camilo Hikage — Portfólio</title>
-  <meta name="description" content="Portfólio pessoal — Explore the Space: hero em parallax com zoom e uma seção de planetas." />
+  <meta name="description" content="Portfólio pessoal — hero em parallax: pôr do sol em colinas que vira noite conforme a página rola." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- ================= HERO — EXPLORE THE SPACE =================
-       Efeito adaptado do gist "Space Explore" de krishnaPC:
-       3 camadas de fundo que dão zoom conforme a página rola. -->
+  <!-- ================= HERO — PÔR DO SOL -> NOITE =================
+       Cena autoral (arte SVG gerada por .claude/gen-hills.js). O céu, o sol,
+       as nuvens e as colinas se movem conforme a página rola (variável --p). -->
   <header class="hero" id="top">
     <div class="hero__stage">
-      <div class="space">
-        <div class="space__layer" id="bg-1"></div>
-        <div class="space__layer" id="bg-2"></div>
-        <div class="space__layer" id="bg-3"></div>
+      <div class="scene">
+        <div class="scene__sky scene__sky--day"></div>
+        <div class="scene__sky scene__sky--night"></div>
+        <div class="scene__stars"></div>
+        <div class="scene__sun"></div>
+        <div class="scene__cloud scene__cloud--a"></div>
+        <div class="scene__cloud scene__cloud--b"></div>
+        <div class="scene__bird"></div>
+        <div class="hill" id="hill-1"></div>
+        <div class="hill" id="hill-2"></div>
+        <div class="hill" id="hill-3"></div>
+        <div class="hill" id="hill-4"></div>
+        <div class="hill" id="hill-5"></div>
+        <div class="hill" id="hill-6"></div>
       </div>
 
       <div class="hero__content">
-        <p class="hero__eyebrow">Camilo Hikage · Portfólio</p>
-        <p class="explore">Explore</p>
-        <p class="explore explore--sub">the&nbsp;space</p>
-        <a class="hero__cta" href="#planetas">Explorar &darr;</a>
+        <p class="hero__eyebrow">Portfólio</p>
+        <h1 class="hero__title">Camilo Hikage</h1>
+        <!-- edite a linha abaixo com a sua atuação -->
+        <p class="hero__subtitle">Desenvolvedor de Software</p>
+        <a class="hero__cta" href="#planetas">Ver mais &darr;</a>
       </div>
     </div>
   </header>
@@ -58,8 +69,8 @@
       <div class="wrap">
         <h2>Sobre</h2>
         <p>
-          Substitua este texto por uma breve apresentação sua. O topo da página
-          usa camadas de fundo que dão zoom conforme você rola; a seção de
+          Substitua este texto por uma breve apresentação sua. No topo, a cena de
+          colinas passa do pôr do sol para a noite conforme você rola; a seção de
           planetas surge com uma animação quando entra na tela.
         </p>
       </div>
@@ -87,14 +98,12 @@
   <footer class="footer">
     <div class="wrap">
       <p>
-        Hero e seção de planetas com arte SVG própria (gerada por
-        <code>.claude/gen-space.js</code>); efeito inspirado no gist
-        <a href="https://gist.github.com/krishnaPC/969d74c4fc13285ee77e77269288dd11" rel="noopener" target="_blank">Space Explore</a>
-        de krishnaPC.
+        Hero (pôr do sol &rarr; noite) e seção de planetas com arte SVG própria,
+        gerada por <code>.claude/gen-hills.js</code> e <code>.claude/gen-space.js</code>.
       </p>
     </div>
   </footer>
 
-  <script src="js/space.js"></script>
+  <script src="js/hero.js"></script>
 </body>
 </html>

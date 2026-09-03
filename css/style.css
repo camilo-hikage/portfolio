@@ -1,18 +1,17 @@
 /* ============================================================
-   Tokens — tema "espaço"
+   Tokens
    ============================================================ */
 :root {
-  --space: #04050b;
-  --hero-ink: #eef2fb;
+  --hero-ink: #ffffff;
 
-  --bg: #0a0d16;
-  --fg: #dfe4f0;
-  --muted: #9aa3ba;
-  --surface: #111524;
-  --border: #232a3f;
-  --accent: #7cc0ff;
+  --bg: #0b0912;
+  --fg: #e6e2ec;
+  --muted: #a59cb3;
+  --surface: #14111f;
+  --border: #2b2440;
+  --accent: #f0a8c0;
 
-  --hero-scroll: 240vh; /* quanto maior, mais lento o zoom do hero */
+  --hero-scroll: 320vh; /* quanto maior, mais lenta a transição pôr do sol -> noite */
 }
 
 /* ============================================================
@@ -33,13 +32,13 @@ img { max-width: 100%; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 
 /* ============================================================
-   Hero — Explore the Space
-   Efeito inspirado no gist "Space Explore" de krishnaPC
+   Hero — pôr do sol -> noite (cena autoral)
+   --p vai de 0 (topo do hero) a 1 (fim), definido em js/hero.js
    ============================================================ */
 .hero {
   position: relative;
   height: var(--hero-scroll);
-  background: var(--space);
+  background: #070510;
 }
 
 /* palco fixo enquanto a região do hero rola */
@@ -50,31 +49,96 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   overflow: hidden;
 }
 
-.space { position: absolute; inset: 0; }
+.scene { position: absolute; inset: 0; }
+.scene > * { position: absolute; }
 
-.space__layer {
-  position: absolute;
+/* ---- céu (crossfade dia/noite) ---- */
+.scene__sky { inset: 0; will-change: opacity; }
+.scene__sky--day {
+  background: linear-gradient(to bottom, #f7c85c 0%, #f6a45f 30%, #ef765f 56%, #d9808a 82%, #c97b8b 100%);
+  opacity: calc(1 - var(--p, 0));
+}
+.scene__sky--night {
+  background: linear-gradient(to bottom, #0a081c 0%, #1b1940 40%, #3a2350 68%, #6b3a5f 88%, #8c4a63 100%);
+  opacity: var(--p, 0);
+}
+
+/* ---- estrelas ---- */
+.scene__stars {
   inset: 0;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: url("../images/hills/stars.svg") repeat;
+  background-size: 360px 360px;
+  opacity: calc((var(--p, 0) - 0.4) * 1.8);
+  will-change: opacity;
+}
+
+/* ---- sol ---- */
+.scene__sun {
+  --d: clamp(150px, 30vw, 330px);
+  width: var(--d);
+  height: var(--d);
+  left: 50%;
+  top: 13%;
+  margin-left: calc(var(--d) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #fff3d2 0%, #ffd97c 42%, #ff9f5c 68%, rgba(255, 140, 80, 0.22) 80%, rgba(255, 140, 80, 0) 100%);
+  transform: translateY(calc(var(--p, 0) * 66vh));
+  opacity: calc(1 - var(--p, 0) * 1.25);
   will-change: transform, opacity;
 }
-/* --p: 0 no topo do hero -> 1 quando o palco solta (definido em js/space.js) */
-#bg-1 {
-  background-image: url("../images/space/bg-1.svg");
-  background-color: var(--space);
-  transform: scale(calc(1.35 - 0.35 * var(--p, 0)));
+
+/* ---- nuvens ---- */
+.scene__cloud {
+  background-repeat: no-repeat;
+  background-size: contain;
+  aspect-ratio: 520 / 190;
+  will-change: transform, opacity;
 }
-#bg-2 {
-  background-image: url("../images/space/bg-2.svg");
-  transform: scale(calc(1 + 0.28 * var(--p, 0)));
+.scene__cloud--a {
+  width: min(46vw, 520px);
+  top: 15%;
+  left: 5%;
+  background-image: url("../images/hills/cloud-a.svg");
+  transform: translateX(calc(var(--p, 0) * -72vw));
+  opacity: calc(1 - var(--p, 0) * 1.5);
 }
-#bg-3 {
-  background-image: url("../images/space/bg-3.svg");
-  transform: scale(calc(1 + 0.62 * var(--p, 0)));
-  opacity: calc(1 - 0.4 * var(--p, 0));
+.scene__cloud--b {
+  width: min(34vw, 380px);
+  top: 30%;
+  right: 7%;
+  background-image: url("../images/hills/cloud-b.svg");
+  transform: translateX(calc(var(--p, 0) * 72vw));
+  opacity: calc(1 - var(--p, 0) * 1.7);
 }
+
+/* ---- pássaro ---- */
+.scene__bird {
+  width: clamp(32px, 5vw, 52px);
+  aspect-ratio: 48 / 22;
+  top: 25%;
+  left: 9%;
+  background: url("../images/hills/bird.svg") no-repeat center / contain;
+  transform: translate(calc(var(--p, 0) * 92vw), calc(var(--p, 0) * -20vh));
+  opacity: calc(1 - var(--p, 0) * 1.8);
+}
+
+/* ---- colinas ---- */
+.hill {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background-position: bottom center;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  will-change: transform;
+}
+#hill-1 { background-image: url("../images/hills/hill-1.svg"); transform: translate(calc(var(--p, 0) * -12px), calc(var(--p, 0) * 8px)); }
+#hill-2 { background-image: url("../images/hills/hill-2.svg"); transform: translate(calc(var(--p, 0) * 8px),   calc(var(--p, 0) * 14px)); }
+#hill-3 { background-image: url("../images/hills/hill-3.svg"); transform: translate(calc(var(--p, 0) * -7px),  calc(var(--p, 0) * 22px)); }
+#hill-4 { background-image: url("../images/hills/hill-4.svg"); transform: translate(calc(var(--p, 0) * 10px),  calc(var(--p, 0) * 32px)); }
+#hill-5 { background-image: url("../images/hills/hill-5.svg"); transform: translate(calc(var(--p, 0) * -5px),  calc(var(--p, 0) * 46px)); }
+#hill-6 { background-image: url("../images/hills/hill-6.svg"); transform: translate(0, calc(var(--p, 0) * 62px)); }
 
 /* ---- texto do hero ---- */
 .hero__content {
@@ -86,35 +150,36 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   justify-content: center;
   text-align: center;
   padding: 24px;
-  z-index: 5;
+  z-index: 6;
   color: var(--hero-ink);
-  transform: translateY(calc(var(--p, 0) * -48px));
+  transform: translateY(calc(var(--p, 0) * -40px));
+  text-shadow: 0 2px 26px rgba(18, 8, 26, 0.5);
 }
 .hero__eyebrow {
-  margin: 0 0 clamp(12px, 3vh, 28px);
+  margin: 0 0 12px;
   font-family: "Barlow Condensed", sans-serif;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  font-size: clamp(0.72rem, 1.6vw, 0.95rem);
+  font-size: clamp(0.72rem, 1.6vw, 0.92rem);
   font-weight: 600;
-  color: #aeb9d4;
+  color: rgba(255, 255, 255, 0.82);
 }
-.explore {
+.hero__title {
   margin: 0;
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
+  font-size: clamp(2.75rem, 9vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  line-height: 0.9;
-  letter-spacing: 0.06em;
-  font-size: clamp(3rem, 13vw, 9.5rem);
-  text-shadow: 0 4px 40px rgba(4, 8, 22, 0.7);
 }
-.explore--sub {
-  color: #8fb6ff;
-  font-size: clamp(2.1rem, 9vw, 6.6rem);
+.hero__subtitle {
+  margin: 12px 0 0;
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  font-weight: 500;
 }
 .hero__cta {
-  margin-top: clamp(28px, 5vh, 48px);
+  margin-top: clamp(28px, 5vh, 44px);
   display: inline-block;
   padding: 11px 26px;
   border: 2px solid var(--hero-ink);
@@ -125,7 +190,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   font-size: 0.95rem;
   transition: background 0.2s ease, color 0.2s ease;
 }
-.hero__cta:hover { background: var(--hero-ink); color: var(--space); }
+.hero__cta:hover { background: var(--hero-ink); color: #2a1830; }
 
 /* ============================================================
    Planetas
@@ -240,7 +305,8 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   html { scroll-behavior: auto; }
   .hero { height: 100vh; }
   .hero__stage { position: relative; }
-  .space__layer { transform: none !important; opacity: 1 !important; }
+  .scene > * { transform: none !important; }
+  .scene__sky--night, .scene__stars { opacity: 0 !important; }
   .hero__content { transform: none !important; }
   .planet { opacity: 1 !important; transform: none !important; transition: none; }
 }

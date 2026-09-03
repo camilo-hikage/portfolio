@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="g-hill-5" x1="0" y1="366" x2="0" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#221a2f"/><stop offset="1" stop-color="#141020"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 600 L0 456.0 Q 64.0 456.0 114.3 459.0 T 228.6 462.0 Q 292.6 462.0 342.9 422.8 T 457.1 383.7 Q 521.1 383.7 571.4 401.8 T 685.7 419.9 Q 749.7 419.9 800.0 429.3 T 914.3 438.8 Q 978.3 438.8 1028.6 457.6 T 1142.9 476.5 Q 1206.9 476.5 1257.1 459.7 T 1371.4 442.8 Q 1435.4 442.8 1485.7 449.4 T 1600.0 456.0 L 1600 600 Z" fill="url(#g-hill-5)"/>
+</svg>
