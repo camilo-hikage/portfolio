@@ -26,7 +26,7 @@
 
   if (pscene && imgs.length && !reduce) {
     var range = imgs.map(function (img) {
-      return 1.4 * (parseFloat(img.getAttribute("data-modifier")) || 0);
+      return 2.2 * (parseFloat(img.getAttribute("data-modifier")) || 0);
     });
     var pLast = null;
     var pUpdate = function () {

@@ -120,18 +120,16 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .pscene {
   position: relative;
   width: 100%;
-  height: clamp(240px, 30vw, 440px);
+  aspect-ratio: 1750 / 965;
   overflow: hidden;
-  background: #cdd6da;
+  background: linear-gradient(to bottom, #cbd5da 0%, #d8d8ca 40%, #cfc7b0 100%);
 }
 .pscene__img {
   position: absolute;
+  top: 0;
   left: 0;
-  top: -20%;
   width: 100%;
-  height: 140%;
-  object-fit: cover;
-  object-position: center 42%;
+  height: auto;
   transform: translateY(var(--ty, 0));
   will-change: transform;
 }
