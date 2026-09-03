@@ -152,29 +152,40 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .section { padding: 96px 0; background: var(--bg); }
 .section--alt { background: var(--surface); border-block: 1px solid var(--border); }
 
-/* orbe verde no fundo de Projetos (efeito próprio, inspirado em TaminoMartinius) */
-.projetos { position: relative; overflow: hidden; }
+/* orbe verde líquido no fundo de Projetos (efeito próprio) */
+.projetos { position: relative; overflow: hidden; isolation: isolate; }
 .projetos .wrap { position: relative; z-index: 1; }
 .projetos__orb {
   position: absolute;
-  right: clamp(-140px, -8vw, -60px);
+  right: clamp(-90px, -3vw, -20px);
   top: 50%;
-  width: clamp(320px, 42vw, 520px);
+  width: clamp(300px, 40vw, 480px);
   aspect-ratio: 1;
   transform: translateY(-50%);
-  background: radial-gradient(circle at 38% 36%, #6bffb0 0%, #10e59a 38%, rgba(6, 90, 70, 0) 72%);
-  filter: blur(34px);
-  opacity: 0.46;
-  mix-blend-mode: screen;
-  border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%;
-  animation: orb-morph 14s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 0;
+  filter: blur(26px);
+  opacity: 0.72;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(closest-side at 34% 30%, #b9ffcf 0%, rgba(185, 255, 207, 0) 60%),
+    radial-gradient(closest-side at 62% 66%, #12e58f 0%, rgba(18, 229, 143, 0) 62%),
+    radial-gradient(closest-side, #0bd08c 0%, #0a7d5e 46%, rgba(8, 90, 66, 0) 74%);
+  border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%;
+  animation: orb-morph 13s ease-in-out infinite alternate;
+}
+.projetos__orb::before {
+  content: "";
+  position: absolute;
+  inset: 18% 22% 30% 16%;
+  border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+  background: radial-gradient(closest-side, #d7ffe6 0%, rgba(120, 255, 200, 0) 70%);
+  animation: orb-morph 9s ease-in-out infinite alternate-reverse;
 }
 @keyframes orb-morph {
   0%   { border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%; transform: translateY(-50%) rotate(0deg) scale(1); }
-  50%  { border-radius: 60% 40% 44% 56% / 56% 58% 42% 44%; transform: translateY(-54%) rotate(9deg) scale(1.07); }
-  100% { border-radius: 38% 62% 55% 45% / 48% 40% 60% 52%; transform: translateY(-46%) rotate(-7deg) scale(0.96); }
+  50%  { border-radius: 62% 38% 43% 57% / 57% 60% 40% 43%; transform: translateY(-55%) rotate(10deg) scale(1.08); }
+  100% { border-radius: 36% 64% 56% 44% / 47% 39% 61% 53%; transform: translateY(-45%) rotate(-8deg) scale(0.95); }
 }
 
 .section h2 {
@@ -186,6 +197,19 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   margin: 0 0 16px;
 }
 .section p { color: var(--muted); max-width: 60ch; }
+
+/* Sobre em duas colunas (igual ao Contato) */
+.sobre__grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(28px, 6vw, 72px);
+  margin-top: 22px;
+}
+.sobre__col p { margin: 0 0 14px; }
+.sobre__col p:last-child { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .sobre__grid { grid-template-columns: 1fr; gap: 18px; }
+}
 
 .cards {
   list-style: none;
@@ -206,14 +230,18 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 
 /* ---- linha do tempo isométrica (CSS puro) ---- */
 .iso-tl {
-  --ang: 16deg;
+  --ang: 20deg;
   --accent-tl: #7fbfff;
-  margin: 44px 0 4px;
-  padding: clamp(300px, 44vw, 380px) 130px 20px 60px;
+  margin: 40px 0 0;
+  padding: clamp(300px, 34vw, 372px) 60px 14px 56px;
   overflow-x: auto;
   overflow-y: hidden;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 60px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 60px), transparent 100%);
 }
+.iso-tl::-webkit-scrollbar { width: 0; height: 0; }
 .iso-tl__rail {
   display: inline-flex;
   align-items: flex-end;
@@ -225,7 +253,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .iso-tl__point {
   position: relative;
   flex: none;
-  width: var(--gap, 120px);
+  width: var(--gap, 96px);
   height: 1px;
 }
 .iso-tl__dot {
@@ -240,12 +268,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 }
 .iso-tl__year {
   position: absolute;
-  left: 12px;
-  top: 3px;
+  left: 13px;
+  top: 2px;
   transform: rotate(var(--ang));
   transform-origin: left top;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
   color: #8fa1b5;
 }
 /* prumo vertical (na tela) ligando o ponto ao cartão */
@@ -255,23 +283,23 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   left: 0;
   bottom: 0;
   width: 1px;
-  height: calc(24px + var(--lvl, 1) * 40px);
-  background: rgba(127, 191, 255, 0.28);
+  height: calc(18px + var(--lvl, 1) * 32px);
+  background: rgba(127, 191, 255, 0.3);
   transform: rotate(var(--ang));
   transform-origin: left bottom;
 }
 .iso-tl__card {
   position: absolute;
-  left: 0;
-  bottom: calc(24px + var(--lvl, 1) * 40px);
+  left: 3px;
+  bottom: calc(18px + var(--lvl, 1) * 32px);
   transform: rotate(var(--ang)) skewY(calc(-1 * var(--ang)));
   transform-origin: left bottom;
   width: max-content;
-  max-width: 210px;
-  padding: 9px 13px;
-  background: rgba(12, 22, 36, 0.9);
+  max-width: 190px;
+  padding: 8px 12px;
+  background: rgba(12, 22, 36, 0.92);
   border: 1px solid rgba(127, 191, 255, 0.22);
-  border-radius: 7px;
+  border-radius: 6px;
 }
 .iso-tl__card--now {
   background: var(--accent-tl);
@@ -279,23 +307,23 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 }
 .iso-tl__title {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #e7edf5;
   white-space: nowrap;
 }
 .iso-tl__meta {
   margin: 2px 0 0;
-  font-size: 0.8rem;
-  color: #8fa1b5;
+  font-size: 0.78rem;
+  color: var(--accent-tl);
   white-space: nowrap;
 }
 .iso-tl__card--now .iso-tl__title,
 .iso-tl__card--now .iso-tl__meta { color: #06121f; }
 .iso-tl__point--now .iso-tl__dot { background: var(--accent-tl); box-shadow: 0 0 0 4px rgba(127, 191, 255, 0.25); }
 
-/* mobile: sem isometria, linha do tempo vertical simples */
-@media (max-width: 720px) {
+/* telas estreitas: sem isometria, linha do tempo vertical simples */
+@media (max-width: 900px) {
   .iso-tl {
     padding: 8px 0 0;
     overflow: visible;
