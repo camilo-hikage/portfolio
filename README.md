@@ -1,26 +1,26 @@
 # Portfólio
 
-Site pessoal de página única com um **hero em parallax**: a Lua com vista para a
-Terra. Cada camada se move a uma velocidade diferente conforme a página rola,
-criando profundidade.
+Site pessoal de página única.
 
-A arte do topo é **SVG própria**, gerada por `.claude/gen-moon.js`. A técnica de
-camadas é inspirada no
-[parallax de Empathetic Polyglot](https://codepen.io/empatheticpolyglot/pen/LWBLNW).
+- **Hero "Explore the Space"**: 3 camadas de fundo (nebulosa + estrelas) que dão
+  zoom conforme a página rola.
+- **Seção "Planetas"**: Neptune, Jupiter e Saturn animam ao entrar na tela.
+
+A arte é **SVG própria**, gerada por `.claude/gen-space.js`. O efeito é adaptado
+do gist [Space Explore](https://gist.github.com/krishnaPC/969d74c4fc13285ee77e77269288dd11)
+de krishnaPC (sem sequestrar o scroll).
 
 ## Estrutura
 
 ```
-index.html            markup da página
-css/style.css          estilos + tokens de tema (espaço)
-js/parallax.js         efeito de parallax (respeita prefers-reduced-motion)
-images/moon/           camadas SVG: stars, earth, ridge-1..5, foreground
-.claude/gen-moon.js    gerador da arte SVG (node .claude/gen-moon.js)
+index.html             markup da página
+css/style.css           estilos + tokens de tema (espaço)
+js/space.js             zoom do hero (--p) + reveal dos planetas
+images/space/           bg-1..3, neptune, jupiter, saturn (SVG)
+.claude/gen-space.js    gerador da arte (node .claude/gen-space.js)
 ```
 
 ## Rodar localmente
-
-Qualquer servidor estático:
 
 ```bash
 npx serve .
@@ -33,8 +33,8 @@ O repositório já inclui `.nojekyll`. Em **Settings → Pages**, selecione a br
 
 ## Personalizar
 
-- Nome, atuação e textos: `index.html`
-- Cores do tema e intensidade do parallax (`--hero-scroll`): `css/style.css`
-- Velocidade de cada camada: atributo `data-speed` em `index.html`
-- Arte da Lua/Terra (cristas, crateras, continentes, estrelas): `.claude/gen-moon.js`,
-  depois rode `node .claude/gen-moon.js` para regerar os SVGs
+- Nome, textos e nomes dos planetas: `index.html`
+- Cores do tema e intensidade do zoom (`--hero-scroll`): `css/style.css`
+- Força do zoom por camada: `#bg-1/#bg-2/#bg-3` em `css/style.css`
+- Arte (nebulosa, estrelas, planetas): `.claude/gen-space.js`, depois
+  `node .claude/gen-space.js` para regerar os SVGs
