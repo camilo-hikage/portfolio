@@ -18,6 +18,31 @@
     });
   }
 
+  /* ---- cena de montanhas: parallax por variável CSS controlada por JS
+     (técnica do pen de electerious) ---- */
+  var pscene = document.querySelector(".pscene");
+  if (pscene && !reduce) {
+    var layers = [].slice.call(pscene.querySelectorAll(".pscene__layer"));
+    var mods = layers.map(function (l) {
+      return (parseFloat(l.getAttribute("data-modifier")) || 0) * 2.4;
+    });
+    var pLast = null;
+    var pUpdate = function () {
+      var r = pscene.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var prog = (vh - r.top) / (vh + r.height);
+      prog = prog < 0 ? 0 : prog > 1 ? 1 : prog;
+      if (prog === pLast) return;
+      pLast = prog;
+      for (var i = 0; i < layers.length; i++) {
+        layers[i].style.setProperty("--ty", (prog * mods[i]).toFixed(1) + "px");
+      }
+    };
+    window.addEventListener("scroll", pUpdate, { passive: true });
+    window.addEventListener("resize", function () { pLast = null; pUpdate(); }, { passive: true });
+    pUpdate();
+  }
+
   /* ---- partículas ---- */
   if (window.particlesJS && !reduce) {
     window.particlesJS("particles-js", {

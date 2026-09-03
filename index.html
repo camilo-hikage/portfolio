@@ -18,7 +18,7 @@
     <div id="parallax" class="hero__parallax">
       <div class="layer" data-depth="0.6">
         <div class="orbit orbit--slow">
-          <h1 class="hero__title">PARALLAX</h1>
+          <h1 class="hero__title">Camilo Hikage</h1>
         </div>
       </div>
       <div class="layer" data-depth="0.4">
@@ -32,6 +32,19 @@
     </div>
     <a class="hero__scroll" href="#sobre" aria-label="Rolar para baixo">&darr;</a>
   </header>
+
+  <!-- ================= CENA DE PARALLAX (scroll) =================
+       Técnica de parallax por variável CSS + basicScroll, inspirada no
+       CodePen "Parallax scene with CSS variables" de electerious.
+       Arte SVG autoral (gerada por .claude/gen-scene.js). -->
+  <section class="pscene" id="cena" aria-hidden="true">
+    <div class="pscene__layer pscene__layer--0" data-modifier="34"></div>
+    <div class="pscene__layer pscene__layer--1" data-modifier="22"></div>
+    <div class="pscene__layer pscene__layer--2" data-modifier="15"></div>
+    <div class="pscene__layer pscene__layer--3" data-modifier="9"></div>
+    <div class="pscene__layer pscene__layer--4" data-modifier="5"></div>
+    <div class="pscene__layer pscene__layer--5" data-modifier="0"></div>
+  </section>
 
   <!-- ================= CONTEÚDO ================= -->
   <main>
@@ -70,7 +83,10 @@
       <p>
         Hero adaptado do CodePen
         <a href="https://codepen.io/dominickolbe/pen/oXPRzR" rel="noopener" target="_blank">“mouse parallax demo”</a>
-        de dominickolbe — <code>parallax.js</code> + <code>particles.js</code>.
+        de dominickolbe (<code>parallax.js</code> + <code>particles.js</code>).
+        Cena de montanhas com a técnica de variáveis CSS controladas por scroll do CodePen
+        <a href="https://codepen.io/electerious/pen/gLLozQ" rel="noopener" target="_blank">“Parallax scene with CSS variables”</a>
+        de electerious, com arte SVG própria.
       </p>
     </div>
   </footer>

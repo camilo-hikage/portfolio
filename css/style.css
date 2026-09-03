@@ -66,11 +66,15 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
+  width: max-content;
+  max-width: 92vw;
+  text-align: center;
   font-family: "Lato", "Inter", sans-serif;
   font-weight: 100;
-  font-size: clamp(2.4rem, 11vw, 5rem);
-  letter-spacing: 0.2em;
-  white-space: nowrap;
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.1;
 }
 
 .hero__btn {
@@ -109,6 +113,34 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   z-index: 3;
 }
 @keyframes bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+/* ============================================================
+   Cena de parallax (scroll) — inspirada em electerious
+   ============================================================ */
+.pscene {
+  position: relative;
+  height: clamp(360px, 62vh, 620px);
+  overflow: hidden;
+  background: #c9d4dc;
+}
+.pscene__layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -22%;
+  bottom: 0;
+  background-position: bottom center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: translateY(var(--ty, 0));
+  will-change: transform;
+}
+.pscene__layer--0 { background-image: url("../images/scene/scene-0.svg"); }
+.pscene__layer--1 { background-image: url("../images/scene/scene-1.svg"); }
+.pscene__layer--2 { background-image: url("../images/scene/scene-2.svg"); }
+.pscene__layer--3 { background-image: url("../images/scene/scene-3.svg"); }
+.pscene__layer--4 { background-image: url("../images/scene/scene-4.svg"); }
+.pscene__layer--5 { background-image: url("../images/scene/scene-5.svg"); }
 
 /* ============================================================
    Conteúdo
@@ -160,4 +192,5 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
+  .pscene__layer { transform: none !important; }
 }
