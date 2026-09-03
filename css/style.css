@@ -1,36 +1,19 @@
 /* ============================================================
-   Tokens
+   Tokens — tema "espaço" (Lua com vista para a Terra)
    ============================================================ */
 :root {
-  --sky: #ffaf1b;
-  --ink: #241a17;
-  --bg: #fbf4e9;
-  --fg: #2b2320;
-  --muted: #6d5f56;
-  --surface: #ffffff;
-  --border: #e7dccb;
-  --accent: #d0472b;
-  --accent-ink: #ffffff;
-  --hero-scroll: 180vh; /* altura da região de scroll do hero (quanto maior, mais lento o parallax) */
-}
+  --space: #04050b;
+  --hero-ink: #eef2fb;
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #17120f;
-    --fg: #ece3da;
-    --muted: #a99a8d;
-    --surface: #211a16;
-    --border: #362b23;
-    --accent: #f0603f;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #17120f;
-  --fg: #ece3da;
-  --muted: #a99a8d;
-  --surface: #211a16;
-  --border: #362b23;
-  --accent: #f0603f;
+  --bg: #0a0d16;
+  --fg: #dfe4f0;
+  --muted: #9aa3ba;
+  --surface: #111524;
+  --border: #232a3f;
+  --accent: #7cc0ff;
+  --accent-ink: #04050b;
+
+  --hero-scroll: 180vh; /* altura da região de scroll do hero (maior = parallax mais lento) */
 }
 
 /* ============================================================
@@ -51,12 +34,14 @@ img { max-width: 100%; }
 
 /* ============================================================
    Hero / Parallax
-   Adaptado de https://codepen.io/empatheticpolyglot/pen/LWBLNW
+   Técnica de camadas inspirada em
+   https://codepen.io/empatheticpolyglot/pen/LWBLNW
+   Arte SVG própria gerada por .claude/gen-moon.js
    ============================================================ */
 .hero {
   position: relative;
   height: var(--hero-scroll);
-  background: var(--sky);
+  background: var(--space);
 }
 
 /* palco fixo enquanto a região do hero rola */
@@ -87,7 +72,7 @@ img { max-width: 100%; }
   will-change: transform;
 }
 
-/* "chão" sólido logo abaixo de cada camada: um pseudo-elemento filho
+/* "chão" sólido logo abaixo de cada cordilheira: um pseudo-elemento filho
    acompanha o transform e evita bordas duras quando a camada sobe */
 .keyart_layer::after {
   content: "";
@@ -99,39 +84,39 @@ img { max-width: 100%; }
   background: var(--ground, transparent);
 }
 
-/* céu: preenche todo o palco, atrás de tudo */
-#keyart-0 {
-  background-image: url("../images/parallax/parallax0.png");
-  background-color: var(--sky);
-  background-size: cover;
+/* céu estrelado: brilho atmosférico perto da Terra + estrelas repetidas */
+#sky {
+  background-color: var(--space);
+  background-image:
+    radial-gradient(ellipse 85% 62% at 74% 16%, #17294e 0%, #0b1530 42%, rgba(4, 5, 11, 0) 100%),
+    url("../images/moon/stars.svg");
+  background-repeat: no-repeat, repeat;
+  background-position: center, top left;
+  background-size: cover, 460px 460px;
 }
-#keyart-0::after { display: none; }
+#sky::after { display: none; }
 
-#keyart-1 { background-image: url("../images/parallax/parallax1.png"); --ground: #ec821b; }
-#keyart-2 { background-image: url("../images/parallax/parallax2.png"); --ground: #d56c1b; }
-#keyart-3 { background-image: url("../images/parallax/parallax3.png"); --ground: #98371b; }
-#keyart-4 { background-image: url("../images/parallax/parallax4.png"); --ground: #7a271b; }
-#keyart-5 { background-image: url("../images/parallax/parallax5.png"); --ground: #5a1715; }
-#keyart-6 { background-image: url("../images/parallax/parallax6.png"); --ground: #2e0a0d; }
-#keyart-7 { background-image: url("../images/parallax/parallax7.png"); --ground: #280003; }
-#keyart-8 { background-image: url("../images/parallax/parallax8.png"); --ground: #210002; }
+/* a Terra: disco no alto à direita, movimento lento (parallax) */
+#earth {
+  background-image: url("../images/moon/earth.svg");
+  background-repeat: no-repeat;
+  background-position: right max(8px, 2vw) top max(10px, 3vh);
+  background-size: auto min(38vh, 46vw, 420px);
+}
+#earth::after { display: none; }
+
+/* cordilheiras lunares (fundo -> frente) */
+#ridge-1   { background-image: url("../images/moon/ridge-1.svg");   --ground: #6a6d78; }
+#ridge-2   { background-image: url("../images/moon/ridge-2.svg");   --ground: #545764; }
+#ridge-3   { background-image: url("../images/moon/ridge-3.svg");   --ground: #40424d; }
+#ridge-4   { background-image: url("../images/moon/ridge-4.svg");   --ground: #2c2e37; }
+#ridge-5   { background-image: url("../images/moon/ridge-5.svg");   --ground: #1a1b22; }
+#foreground{ background-image: url("../images/moon/foreground.svg"); --ground: #0b0b10; }
 
 #keyart-scrim {
-  background: linear-gradient(to bottom, rgba(255, 175, 0, 0) 55%, rgba(146, 43, 15, 0.35) 100%);
+  background: linear-gradient(to bottom, rgba(4, 5, 11, 0) 45%, rgba(4, 5, 11, 0.55) 100%);
   height: 100%;
   pointer-events: none;
-}
-
-@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
-  #keyart-0 { background-image: url("../images/parallax/parallax0@2x.png"); }
-  #keyart-1 { background-image: url("../images/parallax/parallax1@2x.png"); }
-  #keyart-2 { background-image: url("../images/parallax/parallax2@2x.png"); }
-  #keyart-3 { background-image: url("../images/parallax/parallax3@2x.png"); }
-  #keyart-4 { background-image: url("../images/parallax/parallax4@2x.png"); }
-  #keyart-5 { background-image: url("../images/parallax/parallax5@2x.png"); }
-  #keyart-6 { background-image: url("../images/parallax/parallax6@2x.png"); }
-  #keyart-7 { background-image: url("../images/parallax/parallax7@2x.png"); }
-  #keyart-8 { background-image: url("../images/parallax/parallax8@2x.png"); }
 }
 
 /* ---- texto sobre o hero ---- */
@@ -143,20 +128,20 @@ img { max-width: 100%; }
   align-items: center;
   justify-content: flex-start;
   text-align: center;
-  padding: clamp(64px, 16vh, 220px) 24px 24px;
-  color: var(--ink);
+  padding: clamp(96px, 21vh, 280px) 24px 24px;
+  color: var(--hero-ink);
   z-index: 5;
-  text-shadow: 0 1px 0 rgba(255, 226, 173, 0.55);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
 }
 .hero__content::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: clamp(40px, 12vh, 180px);
-  width: min(760px, 90vw);
-  height: 360px;
+  top: clamp(32px, 11vh, 170px);
+  width: min(820px, 92vw);
+  height: 380px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(255, 214, 140, 0.55), rgba(255, 214, 140, 0) 70%);
+  background: radial-gradient(ellipse at center, rgba(4, 6, 14, 0.55), rgba(4, 6, 14, 0) 70%);
   pointer-events: none;
   z-index: -1;
 }
@@ -167,7 +152,7 @@ img { max-width: 100%; }
   text-transform: uppercase;
   font-size: 0.85rem;
   font-weight: 600;
-  opacity: 0.8;
+  opacity: 0.75;
 }
 .hero__title {
   margin: 0;
@@ -187,17 +172,17 @@ img { max-width: 100%; }
   margin-top: 32px;
   display: inline-block;
   padding: 10px 22px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--hero-ink);
   border-radius: 999px;
-  color: var(--ink);
+  color: var(--hero-ink);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
   transition: background 0.2s ease, color 0.2s ease;
 }
 .hero__cta:hover {
-  background: var(--ink);
-  color: var(--sky);
+  background: var(--hero-ink);
+  color: var(--space);
 }
 
 /* ============================================================
@@ -236,11 +221,12 @@ img { max-width: 100%; }
 
 .footer {
   padding: 40px 0;
-  background: var(--ink);
-  color: #d9c9b6;
+  background: #06080f;
+  color: var(--muted);
   font-size: 0.85rem;
+  border-top: 1px solid var(--border);
 }
-.footer a { color: #f0b45f; }
+.footer a { color: var(--accent); }
 
 /* ============================================================
    Acessibilidade — sem movimento

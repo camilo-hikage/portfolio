@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Camilo Hikage — Portfólio</title>
-  <meta name="description" content="Portfólio pessoal com hero em parallax." />
+  <meta name="description" content="Portfólio pessoal com hero em parallax: a Lua com vista para a Terra." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -12,21 +12,20 @@
 </head>
 <body>
   <!-- ================= HERO / PARALLAX ================= -->
-  <!-- Arte de parallax baseada no CodePen de Empathetic Polyglot (LWBLNW),
-       com o logotipo "FIREWATCH" removido da camada central (parallax2). -->
+  <!-- Cena "A Lua com vista para a Terra": camadas SVG geradas por
+       .claude/gen-moon.js. Cada camada rola a uma velocidade (data-speed). -->
   <header class="hero" id="top">
     <div class="hero__stage">
       <div class="keyart" id="parallax">
-        <div class="keyart_layer parallax" id="keyart-0" data-speed="2"></div>
-        <div class="keyart_layer parallax" id="keyart-1" data-speed="5"></div>
-        <div class="keyart_layer parallax" id="keyart-2" data-speed="11"></div>
-        <div class="keyart_layer parallax" id="keyart-3" data-speed="16"></div>
-        <div class="keyart_layer parallax" id="keyart-4" data-speed="26"></div>
-        <div class="keyart_layer parallax" id="keyart-5" data-speed="36"></div>
-        <div class="keyart_layer parallax" id="keyart-6" data-speed="49"></div>
+        <div class="keyart_layer" id="sky"></div>
+        <div class="keyart_layer parallax" id="earth" data-speed="4"></div>
+        <div class="keyart_layer parallax" id="ridge-1" data-speed="10"></div>
+        <div class="keyart_layer parallax" id="ridge-2" data-speed="18"></div>
+        <div class="keyart_layer parallax" id="ridge-3" data-speed="30"></div>
+        <div class="keyart_layer parallax" id="ridge-4" data-speed="46"></div>
         <div class="keyart_layer" id="keyart-scrim"></div>
-        <div class="keyart_layer parallax" id="keyart-7" data-speed="69"></div>
-        <div class="keyart_layer parallax" id="keyart-8" data-speed="100"></div>
+        <div class="keyart_layer parallax" id="ridge-5" data-speed="66"></div>
+        <div class="keyart_layer parallax" id="foreground" data-speed="100"></div>
       </div>
 
       <div class="hero__content">
@@ -74,9 +73,9 @@
   <footer class="footer">
     <div class="wrap">
       <p>
-        Arte do hero adaptada do
+        Hero em parallax com arte SVG própria (a Lua com vista para a Terra).
+        Técnica de camadas inspirada no
         <a href="https://codepen.io/empatheticpolyglot/pen/LWBLNW" rel="noopener" target="_blank">parallax de Empathetic Polyglot</a>.
-        Ilustrações originais: Firewatch / Campo Santo.
       </p>
     </div>
   </footer>

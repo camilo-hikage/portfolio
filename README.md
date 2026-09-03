@@ -1,20 +1,21 @@
 # Portfólio
 
-Site pessoal de página única com um **hero em parallax** de camadas — cada camada
-se move a uma velocidade diferente conforme a página rola, criando profundidade.
+Site pessoal de página única com um **hero em parallax**: a Lua com vista para a
+Terra. Cada camada se move a uma velocidade diferente conforme a página rola,
+criando profundidade.
 
-A arte do topo é adaptada do
-[parallax de Empathetic Polyglot](https://codepen.io/empatheticpolyglot/pen/LWBLNW)
-(ilustrações originais de *Firewatch* / Campo Santo), com o logotipo **FIREWATCH**
-removido da camada central.
+A arte do topo é **SVG própria**, gerada por `.claude/gen-moon.js`. A técnica de
+camadas é inspirada no
+[parallax de Empathetic Polyglot](https://codepen.io/empatheticpolyglot/pen/LWBLNW).
 
 ## Estrutura
 
 ```
 index.html            markup da página
-css/style.css          estilos + tokens de tema (claro/escuro)
-js/parallax.js         efeito de parallax (rAF, respeita prefers-reduced-motion)
-images/parallax/       9 camadas (@1x e @2x)
+css/style.css          estilos + tokens de tema (espaço)
+js/parallax.js         efeito de parallax (respeita prefers-reduced-motion)
+images/moon/           camadas SVG: stars, earth, ridge-1..5, foreground
+.claude/gen-moon.js    gerador da arte SVG (node .claude/gen-moon.js)
 ```
 
 ## Rodar localmente
@@ -33,5 +34,7 @@ O repositório já inclui `.nojekyll`. Em **Settings → Pages**, selecione a br
 ## Personalizar
 
 - Nome, atuação e textos: `index.html`
-- Cores e intensidade do parallax (`--hero-scroll`): `css/style.css`
+- Cores do tema e intensidade do parallax (`--hero-scroll`): `css/style.css`
 - Velocidade de cada camada: atributo `data-speed` em `index.html`
+- Arte da Lua/Terra (cristas, crateras, continentes, estrelas): `.claude/gen-moon.js`,
+  depois rode `node .claude/gen-moon.js` para regerar os SVGs
