@@ -115,24 +115,34 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 @keyframes bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
 
 /* ============================================================
-   Cena de parallax (scroll) — CodePen de electerious
+   Cena de parallax (scroll) — baseada no CodePen de electerious
    ============================================================ */
 .pscene {
   position: relative;
   width: 100%;
-  aspect-ratio: 1750 / 965;
+  height: clamp(190px, 43vw, 520px);
   overflow: hidden;
-  background: linear-gradient(to bottom, #cbd5da 0%, #d8d8ca 40%, #cfc7b0 100%);
+  /* céu -> montanha -> floresta -> escuro: preenche qualquer folga das camadas */
+  background: linear-gradient(to bottom, #cbd5da 0%, #d5d4c4 24%, #808c93 44%, #38464f 62%, #16222c 100%);
 }
-.pscene__img {
+.pscene__layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
   transform: translateY(var(--ty, 0));
   will-change: transform;
 }
+.pscene__layer--0 {
+  background-image: url("../images/parallax/p0.png");
+  background-color: #cbd5da; /* céu, para cobrir a folga do topo desta camada */
+}
+.pscene__layer--1 { background-image: url("../images/parallax/p1.png"); }
+.pscene__layer--2 { background-image: url("../images/parallax/p2.png"); }
+.pscene__layer--3 { background-image: url("../images/parallax/p3.png"); }
+.pscene__layer--4 { background-image: url("../images/parallax/p4.png"); }
+.pscene__layer--5 { background-image: url("../images/parallax/p6.png"); }
 
 /* ============================================================
    Conteúdo
@@ -169,8 +179,21 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .card h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .card p { margin: 0; font-size: 0.95rem; }
 
+/* ---- seção de contato + fundo animado ---- */
+.contact { position: relative; overflow: hidden; background: #05100f; }
+.contact__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.contact .wrap { position: relative; z-index: 1; }
+.contact p { color: #c6d2cf; }
+
 /* ---- formulário de contato ---- */
-.contact-lead { color: var(--muted); }
+.contact-lead { max-width: 46ch; }
 .contact-form {
   display: grid;
   gap: 14px;
@@ -180,15 +203,15 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .contact-form label { display: grid; gap: 6px; }
 .contact-form span {
   font-size: 0.85rem;
-  color: var(--muted);
+  color: #9fb2ad;
   letter-spacing: 0.02em;
 }
 .contact-form input,
 .contact-form textarea {
   font: inherit;
   color: var(--fg);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(9, 22, 20, 0.72);
+  border: 1px solid rgba(127, 255, 212, 0.22);
   border-radius: 8px;
   padding: 10px 12px;
   width: 100%;
@@ -196,7 +219,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 }
 .contact-form input:focus,
 .contact-form textarea:focus {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #7fffd4;
   outline-offset: 1px;
   border-color: transparent;
 }
@@ -205,15 +228,15 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  color: #0c1826;
-  background: var(--accent);
+  color: #05201a;
+  background: #7fffd4;
   border: 0;
   border-radius: 999px;
   padding: 10px 24px;
   transition: filter 0.2s ease;
 }
 .contact-form button:hover { filter: brightness(1.08); }
-.contact-alt { color: var(--muted); }
+.contact-alt a { color: #7fffd4; }
 
 .footer {
   padding: 40px 0;
@@ -230,5 +253,5 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
-  .pscene__img { transform: none !important; }
+  .pscene__layer { transform: none !important; }
 }

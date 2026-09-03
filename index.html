@@ -47,16 +47,16 @@
     </section>
 
     <!-- ================= CENA DE PARALLAX (scroll) =================
-         CodePen "Parallax scene with CSS variables" de electerious:
+         Baseado no CodePen "Parallax scene with CSS variables" de electerious:
          a variável CSS --ty de cada camada é controlada no scroll.
-         Imagens servidas pelo CDN do autor (s.electerious.com). -->
+         Imagens: parallax scene de electerious (no repositório, images/parallax/). -->
     <section class="pscene" id="cena" aria-hidden="true">
-      <img class="pscene__img" data-modifier="30" alt="" src="https://s.electerious.com/parallaxscene/p0.png" />
-      <img class="pscene__img" data-modifier="18" alt="" src="https://s.electerious.com/parallaxscene/p1.png" />
-      <img class="pscene__img" data-modifier="12" alt="" src="https://s.electerious.com/parallaxscene/p2.png" />
-      <img class="pscene__img" data-modifier="8"  alt="" src="https://s.electerious.com/parallaxscene/p3.png" />
-      <img class="pscene__img" data-modifier="6"  alt="" src="https://s.electerious.com/parallaxscene/p4.png" />
-      <img class="pscene__img" data-modifier="0"  alt="" src="https://s.electerious.com/parallaxscene/p6.png" />
+      <div class="pscene__layer pscene__layer--0" data-modifier="30"></div>
+      <div class="pscene__layer pscene__layer--1" data-modifier="18"></div>
+      <div class="pscene__layer pscene__layer--2" data-modifier="12"></div>
+      <div class="pscene__layer pscene__layer--3" data-modifier="8"></div>
+      <div class="pscene__layer pscene__layer--4" data-modifier="6"></div>
+      <div class="pscene__layer pscene__layer--5" data-modifier="0"></div>
     </section>
 
     <section class="section section--alt" id="projetos">
@@ -70,33 +70,30 @@
       </div>
     </section>
 
-    <section class="section" id="contato">
+    <section class="section contact" id="contato">
+      <canvas class="contact__bg" id="contact-bg" aria-hidden="true"></canvas>
       <div class="wrap">
         <h2>Contato</h2>
-        <p class="contact-lead">Deixe uma mensagem que eu respondo assim que possível.</p>
+        <p class="contact-lead">
+          Preencha e envie — a mensagem abre no WhatsApp já pronta, sem
+          servidor nem serviços de terceiros.
+        </p>
 
-        <!-- Troque o action pelo endpoint do seu serviço de formulário
-             (Formspree, FormSubmit, Getform, Netlify Forms...). Assim o
-             formulário funciona sem expor o seu e-mail no código. -->
-        <form class="contact-form" method="POST" action="https://formspree.io/f/SEU_ID">
+        <form class="contact-form" id="contact-form" method="get" action="https://wa.me/5511986156202" target="_blank">
           <label>
             <span>Nome</span>
             <input type="text" name="nome" autocomplete="name" required />
           </label>
           <label>
-            <span>E-mail para resposta</span>
-            <input type="email" name="email" autocomplete="email" required />
-          </label>
-          <label>
             <span>Mensagem</span>
             <textarea name="mensagem" rows="4" required></textarea>
           </label>
-          <button type="submit">Enviar</button>
+          <button type="submit">Enviar pelo WhatsApp</button>
         </form>
 
         <p class="contact-alt">
-          Ou fale comigo no
-          <a href="https://wa.me/5511986156202" rel="noopener" target="_blank">WhatsApp — (11) 98615-6202</a>.
+          Ou abra a conversa direto:
+          <a href="https://wa.me/5511986156202" rel="noopener" target="_blank">(11) 98615-6202</a>.
         </p>
       </div>
     </section>
@@ -108,9 +105,12 @@
         Hero adaptado do CodePen
         <a href="https://codepen.io/dominickolbe/pen/oXPRzR" rel="noopener" target="_blank">“mouse parallax demo”</a>
         de dominickolbe (<code>parallax.js</code> + <code>particles.js</code>).
-        Cena de montanhas: CodePen
+        Cena de montanhas baseada no CodePen
         <a href="https://codepen.io/electerious/pen/gLLozQ" rel="noopener" target="_blank">“Parallax scene with CSS variables”</a>
-        de electerious — parallax por variável CSS no scroll, imagens de s.electerious.com.
+        de electerious (imagens do autor).
+        Fundo do Contato inspirado no CodePen
+        <a href="https://codepen.io/prisoner849/pen/ogBXRvN" rel="noopener" target="_blank">“Line2NodeMaterial”</a>
+        de prisoner849 (recriado com Canvas 2D).
       </p>
     </div>
   </footer>
