@@ -39,10 +39,71 @@
       <div class="wrap">
         <h2>Sobre</h2>
         <p>
-          Substitua este texto por uma breve apresentação sua. O topo da página
-          usa um parallax que responde ao movimento do mouse (ou do giroscópio,
-          no celular), com uma malha de partículas por cima.
+          Substitua este texto por uma breve apresentação sua. Abaixo, uma linha
+          do tempo com os principais marcos — ajuste as datas e os textos como
+          quiser.
         </p>
+
+        <!-- Linha do tempo isométrica (CSS puro). Efeito inspirado no CodePen
+             "Isometric timeline" de Timur Bilalov. Edite as datas/títulos.
+             --gap: distância até o próximo ponto · --lvl: altura do cartão (1–4) -->
+        <div class="iso-tl" role="list" aria-label="Linha do tempo">
+          <div class="iso-tl__rail">
+            <div class="iso-tl__point" role="listitem" style="--gap: 122px; --lvl: 3">
+              <span class="iso-tl__dot"></span>
+              <span class="iso-tl__year">2015</span>
+              <div class="iso-tl__card">
+                <p class="iso-tl__title">Comecei a programar</p>
+                <p class="iso-tl__meta">2015</p>
+              </div>
+            </div>
+
+            <div class="iso-tl__point" role="listitem" style="--gap: 122px; --lvl: 1">
+              <span class="iso-tl__dot"></span>
+              <span class="iso-tl__year">2017</span>
+              <div class="iso-tl__card">
+                <p class="iso-tl__title">Primeiro emprego</p>
+                <p class="iso-tl__meta">Desenvolvedor · fev 2017</p>
+              </div>
+            </div>
+
+            <div class="iso-tl__point" role="listitem" style="--gap: 122px; --lvl: 3">
+              <span class="iso-tl__dot"></span>
+              <span class="iso-tl__year">2019</span>
+              <div class="iso-tl__card">
+                <p class="iso-tl__title">Formação</p>
+                <p class="iso-tl__meta">jul 2019</p>
+              </div>
+            </div>
+
+            <div class="iso-tl__point" role="listitem" style="--gap: 122px; --lvl: 1">
+              <span class="iso-tl__dot"></span>
+              <span class="iso-tl__year">2021</span>
+              <div class="iso-tl__card">
+                <p class="iso-tl__title">Desenvolvedor Frontend</p>
+                <p class="iso-tl__meta">2021</p>
+              </div>
+            </div>
+
+            <div class="iso-tl__point" role="listitem" style="--gap: 122px; --lvl: 3">
+              <span class="iso-tl__dot"></span>
+              <span class="iso-tl__year">2023</span>
+              <div class="iso-tl__card">
+                <p class="iso-tl__title">Desenvolvedor Sênior</p>
+                <p class="iso-tl__meta">2023</p>
+              </div>
+            </div>
+
+            <div class="iso-tl__point iso-tl__point--now" role="listitem" style="--gap: 30px; --lvl: 2">
+              <span class="iso-tl__dot"></span>
+              <span class="iso-tl__year">hoje</span>
+              <div class="iso-tl__card iso-tl__card--now">
+                <p class="iso-tl__title">Aberto a novos projetos</p>
+                <p class="iso-tl__meta">bora conversar?</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -59,7 +120,8 @@
       <div class="pscene__layer pscene__layer--5" data-modifier="0"></div>
     </section>
 
-    <section class="section section--alt" id="projetos">
+    <section class="section section--alt projetos" id="projetos">
+      <span class="projetos__orb" aria-hidden="true"></span>
       <div class="wrap">
         <h2>Projetos</h2>
         <ul class="cards">
@@ -112,6 +174,19 @@
                 </a>
               </li>
             </ul>
+
+            <!-- gatinho (SVG próprio) no canto -->
+            <svg class="contact__cat" viewBox="0 0 128 120" aria-hidden="true">
+              <path class="contact__cat-tail" d="M96 108 q30 -4 26 -38 q-3 -22 -20 -24 q13 14 8 32 q-5 20 -22 22z" fill="#243530"/>
+              <path d="M34 112 q-10 -52 30 -58 q40 6 30 58z" fill="#243530"/>
+              <path d="M40 62 q-8 -12 -4 -26 q12 7 15 5 q9 -5 9 -5 q0 0 9 5 q3 2 15 -5 q4 14 -4 26 q-9 12 -25 12 q-16 0 -24 -12z" fill="#243530"/>
+              <path d="M39 42 q-3 -9 -2 -18 q8 6 12 5z" fill="#7fffd4" opacity=".45"/>
+              <path d="M85 42 q3 -9 2 -18 q-8 6 -12 5z" fill="#7fffd4" opacity=".45"/>
+              <ellipse class="contact__cat-eye" cx="53" cy="52" rx="2.8" ry="3.6" fill="#7fffd4"/>
+              <ellipse class="contact__cat-eye" cx="75" cy="52" rx="2.8" ry="3.6" fill="#7fffd4"/>
+              <path d="M62 57 h4 l-2 3z" fill="#7fffd4" opacity=".85"/>
+              <path d="M50 60 q14 8 28 0" fill="none" stroke="#7fffd4" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
+            </svg>
           </aside>
         </div>
       </div>
@@ -123,8 +198,10 @@
       <p class="footer__credits">
         Efeitos a partir de CodePens de
         <a href="https://codepen.io/dominickolbe/pen/oXPRzR" rel="noopener" target="_blank">dominickolbe</a>,
-        <a href="https://codepen.io/electerious/pen/gLLozQ" rel="noopener" target="_blank">electerious</a>
-        e <a href="https://codepen.io/prisoner849/pen/ogBXRvN" rel="noopener" target="_blank">prisoner849</a>.
+        <a href="https://codepen.io/electerious/pen/gLLozQ" rel="noopener" target="_blank">electerious</a>,
+        <a href="https://codepen.io/prisoner849/pen/ogBXRvN" rel="noopener" target="_blank">prisoner849</a>,
+        <a href="https://codepen.io/Tims101/pen/yVXOjL" rel="noopener" target="_blank">Timur Bilalov</a>
+        e <a href="https://codepen.io/TaminoMartinius/pen/MYJEyer" rel="noopener" target="_blank">TaminoMartinius</a>.
       </p>
     </div>
   </footer>

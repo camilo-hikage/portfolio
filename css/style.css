@@ -152,6 +152,31 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .section { padding: 96px 0; background: var(--bg); }
 .section--alt { background: var(--surface); border-block: 1px solid var(--border); }
 
+/* orbe verde no fundo de Projetos (efeito próprio, inspirado em TaminoMartinius) */
+.projetos { position: relative; overflow: hidden; }
+.projetos .wrap { position: relative; z-index: 1; }
+.projetos__orb {
+  position: absolute;
+  right: clamp(-140px, -8vw, -60px);
+  top: 50%;
+  width: clamp(320px, 42vw, 520px);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  background: radial-gradient(circle at 38% 36%, #6bffb0 0%, #10e59a 38%, rgba(6, 90, 70, 0) 72%);
+  filter: blur(34px);
+  opacity: 0.46;
+  mix-blend-mode: screen;
+  border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%;
+  animation: orb-morph 14s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes orb-morph {
+  0%   { border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%; transform: translateY(-50%) rotate(0deg) scale(1); }
+  50%  { border-radius: 60% 40% 44% 56% / 56% 58% 42% 44%; transform: translateY(-54%) rotate(9deg) scale(1.07); }
+  100% { border-radius: 38% 62% 55% 45% / 48% 40% 60% 52%; transform: translateY(-46%) rotate(-7deg) scale(0.96); }
+}
+
 .section h2 {
   font-family: "Lato", "Inter", sans-serif;
   font-weight: 300;
@@ -179,6 +204,133 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .card h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .card p { margin: 0; font-size: 0.95rem; }
 
+/* ---- linha do tempo isométrica (CSS puro) ---- */
+.iso-tl {
+  --ang: 16deg;
+  --accent-tl: #7fbfff;
+  margin: 44px 0 4px;
+  padding: clamp(300px, 44vw, 380px) 130px 20px 60px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.iso-tl__rail {
+  display: inline-flex;
+  align-items: flex-end;
+  transform: rotate(calc(-1 * var(--ang)));
+  transform-origin: left bottom;
+  border-top: 1px solid rgba(127, 191, 255, 0.4);
+  white-space: nowrap;
+}
+.iso-tl__point {
+  position: relative;
+  flex: none;
+  width: var(--gap, 120px);
+  height: 1px;
+}
+.iso-tl__dot {
+  position: absolute;
+  left: -5px;
+  top: -6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--accent-tl);
+  z-index: 2;
+}
+.iso-tl__year {
+  position: absolute;
+  left: 12px;
+  top: 3px;
+  transform: rotate(var(--ang));
+  transform-origin: left top;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #8fa1b5;
+}
+/* prumo vertical (na tela) ligando o ponto ao cartão */
+.iso-tl__point::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: calc(24px + var(--lvl, 1) * 40px);
+  background: rgba(127, 191, 255, 0.28);
+  transform: rotate(var(--ang));
+  transform-origin: left bottom;
+}
+.iso-tl__card {
+  position: absolute;
+  left: 0;
+  bottom: calc(24px + var(--lvl, 1) * 40px);
+  transform: rotate(var(--ang)) skewY(calc(-1 * var(--ang)));
+  transform-origin: left bottom;
+  width: max-content;
+  max-width: 210px;
+  padding: 9px 13px;
+  background: rgba(12, 22, 36, 0.9);
+  border: 1px solid rgba(127, 191, 255, 0.22);
+  border-radius: 7px;
+}
+.iso-tl__card--now {
+  background: var(--accent-tl);
+  border-color: transparent;
+}
+.iso-tl__title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #e7edf5;
+  white-space: nowrap;
+}
+.iso-tl__meta {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #8fa1b5;
+  white-space: nowrap;
+}
+.iso-tl__card--now .iso-tl__title,
+.iso-tl__card--now .iso-tl__meta { color: #06121f; }
+.iso-tl__point--now .iso-tl__dot { background: var(--accent-tl); box-shadow: 0 0 0 4px rgba(127, 191, 255, 0.25); }
+
+/* mobile: sem isometria, linha do tempo vertical simples */
+@media (max-width: 720px) {
+  .iso-tl {
+    padding: 8px 0 0;
+    overflow: visible;
+    margin: 28px 0 0;
+  }
+  .iso-tl__rail {
+    display: block;
+    transform: none;
+    border-top: 0;
+    border-left: 1px solid rgba(127, 191, 255, 0.35);
+    margin-left: 5px;
+    white-space: normal;
+  }
+  .iso-tl__point {
+    width: auto;
+    height: auto;
+    padding: 0 0 22px 22px;
+  }
+  .iso-tl__point::before { display: none; }
+  .iso-tl__dot { left: -6px; top: 4px; }
+  .iso-tl__year {
+    position: static;
+    display: block;
+    transform: none;
+    margin-bottom: 4px;
+  }
+  .iso-tl__card {
+    position: static;
+    transform: none;
+    max-width: none;
+    width: auto;
+  }
+  .iso-tl__title, .iso-tl__meta { white-space: normal; }
+}
+
 /* ---- seção de contato + fundo animado ---- */
 .contact { position: relative; overflow: hidden; background: #05100f; }
 .contact__bg {
@@ -204,7 +356,31 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   .contact__grid { grid-template-columns: 1fr; gap: 36px; }
 }
 
-.contact__side { align-self: start; }
+.contact__side {
+  align-self: start;
+  position: relative;
+  padding-bottom: clamp(76px, 13vw, 104px);
+}
+.contact__cat {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: clamp(64px, 13vw, 96px);
+  height: auto;
+  pointer-events: none;
+}
+.contact__cat-tail {
+  transform-box: fill-box;
+  transform-origin: 10% 88%;
+  animation: cat-tail 3.4s ease-in-out infinite;
+}
+.contact__cat-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cat-blink 4.5s infinite;
+}
+@keyframes cat-tail { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-14deg); } }
+@keyframes cat-blink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.12); } }
 .contact__invite {
   margin: 0 0 20px;
   max-width: 34ch;
@@ -305,4 +481,6 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   html { scroll-behavior: auto; }
   .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
   .pscene__layer { transform: none !important; }
+  .contact__cat-tail, .contact__cat-eye { animation: none; }
+  .projetos__orb { animation: none; }
 }
