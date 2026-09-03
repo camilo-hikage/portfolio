@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Camilo Hikage — Parallax</title>
+  <meta name="description" content="Site com hero em parallax de mouse e partículas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ================= HERO — mouse parallax + partículas =================
+       Efeito adaptado do CodePen "mouse parallax demo" de dominickolbe
+       (parallax.js + particles.js). -->
+  <header class="hero" id="top">
+    <div id="parallax" class="hero__parallax">
+      <div class="layer" data-depth="0.6">
+        <div class="orbit orbit--slow">
+          <h1 class="hero__title">PARALLAX</h1>
+        </div>
+      </div>
+      <div class="layer" data-depth="0.4">
+        <div id="particles-js"></div>
+      </div>
+      <div class="layer" data-depth="0.3">
+        <div class="orbit orbit--fast">
+          <a class="hero__btn" href="#sobre">is it cool ?</a>
+        </div>
+      </div>
+    </div>
+    <a class="hero__scroll" href="#sobre" aria-label="Rolar para baixo">&darr;</a>
+  </header>
+
+  <!-- ================= CONTEÚDO ================= -->
+  <main>
+    <section class="section" id="sobre">
+      <div class="wrap">
+        <h2>Sobre</h2>
+        <p>
+          Substitua este texto por uma breve apresentação sua. O topo da página
+          usa um parallax que responde ao movimento do mouse (ou do giroscópio,
+          no celular), com uma malha de partículas por cima.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="projetos">
+      <div class="wrap">
+        <h2>Projetos</h2>
+        <ul class="cards">
+          <li class="card"><h3>Projeto um</h3><p>Descrição curta do projeto.</p></li>
+          <li class="card"><h3>Projeto dois</h3><p>Descrição curta do projeto.</p></li>
+          <li class="card"><h3>Projeto três</h3><p>Descrição curta do projeto.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="contato">
+      <div class="wrap">
+        <h2>Contato</h2>
+        <p><a href="mailto:camilo.hikage@outlook.com">camilo.hikage@outlook.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>
+        Hero adaptado do CodePen
+        <a href="https://codepen.io/dominickolbe/pen/oXPRzR" rel="noopener" target="_blank">“mouse parallax demo”</a>
+        de dominickolbe — <code>parallax.js</code> + <code>particles.js</code>.
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+/* ============================================================
+   Tokens
+   ============================================================ */
+:root {
+  --blue: #2980b9;
+  --blue-deep: #1c5b85;
+
+  --bg: #0c1826;
+  --fg: #dfe7ee;
+  --muted: #93a6b6;
+  --surface: #12212f;
+  --border: #223345;
+  --accent: #4aa8e0;
+
+  --hero-ink: #ffffff;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); }
+img { max-width: 100%; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+
+/* ============================================================
+   Hero — mouse parallax + partículas (adaptado de dominickolbe)
+   ============================================================ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 480px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 50% 30%, #3a97cf 0%, var(--blue) 45%, var(--blue-deep) 100%);
+  color: var(--hero-ink);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* parallax.js posiciona .layer como absolute; garantimos o tamanho */
+.hero__parallax,
+.layer,
+.orbit,
+#particles-js {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#particles-js { opacity: 0.6; }
+
+.hero__title {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  font-family: "Lato", "Inter", sans-serif;
+  font-weight: 100;
+  font-size: clamp(2.4rem, 11vw, 5rem);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+.hero__btn {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  display: table;
+  padding: 10px 16px;
+  border: 1px solid #fff;
+  color: #fff;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.hero__btn:hover { background: #fff; color: #000; }
+
+/* órbita lenta das camadas (como .some-space / .some-more-space no original) */
+.orbit--slow { animation: orbit 18s 0.5s infinite linear reverse; }
+.orbit--fast { animation: orbit 15s 0.1s infinite linear; }
+
+@keyframes orbit {
+  0%   { transform: rotateZ(0deg)   translate3d(0, 1.5%, 0) rotateZ(0deg); }
+  100% { transform: rotateZ(360deg) translate3d(0, 1.5%, 0) rotateZ(-360deg); }
+}
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.4rem;
+  text-decoration: none;
+  animation: bob 1.8s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+/* ============================================================
+   Conteúdo
+   ============================================================ */
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+.section { padding: 96px 0; background: var(--bg); }
+.section--alt { background: var(--surface); border-block: 1px solid var(--border); }
+
+.section h2 {
+  font-family: "Lato", "Inter", sans-serif;
+  font-weight: 300;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+.section p { color: var(--muted); max-width: 60ch; }
+
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.card p { margin: 0; font-size: 0.95rem; }
+
+.footer {
+  padding: 40px 0;
+  background: #081019;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--accent); }
+
+/* ============================================================
+   Acessibilidade — sem movimento
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
+}
