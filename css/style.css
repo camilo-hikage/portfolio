@@ -2,8 +2,10 @@
    Tokens
    ============================================================ */
 :root {
-  --blue: #2980b9;
-  --blue-deep: #1c5b85;
+  --galaxy-1: #1e2a63;
+  --galaxy-2: #201a55;
+  --galaxy-3: #2c1250;
+  --galaxy-4: #120a26;
 
   --bg: #0c1826;
   --fg: #dfe7ee;
@@ -41,7 +43,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   min-height: 480px;
   overflow: hidden;
   background:
-    radial-gradient(120% 120% at 50% 30%, #3a97cf 0%, var(--blue) 45%, var(--blue-deep) 100%);
+    radial-gradient(140% 120% at 22% 12%, var(--galaxy-1) 0%, var(--galaxy-2) 30%, var(--galaxy-3) 58%, var(--galaxy-4) 100%);
   color: var(--hero-ink);
   -webkit-user-select: none;
   user-select: none;
@@ -152,41 +154,62 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .section { padding: 96px 0; background: var(--bg); }
 .section--alt { background: var(--surface); border-block: 1px solid var(--border); }
 
-/* orbe verde líquido no fundo de Projetos (efeito próprio) */
+/* orbe verde líquido no fundo de Projetos (metaballs + filtro gooey, efeito próprio) */
 .projetos { position: relative; overflow: hidden; isolation: isolate; }
 .projetos .wrap { position: relative; z-index: 1; }
+
 .projetos__orb {
   position: absolute;
-  right: clamp(-90px, -3vw, -20px);
+  right: clamp(-70px, -2vw, 12px);
   top: 50%;
-  width: clamp(300px, 40vw, 480px);
+  width: clamp(280px, 38vw, 440px);
   aspect-ratio: 1;
   transform: translateY(-50%);
   pointer-events: none;
   z-index: 0;
-  filter: blur(26px);
-  opacity: 0.72;
-  mix-blend-mode: screen;
-  background:
-    radial-gradient(closest-side at 34% 30%, #b9ffcf 0%, rgba(185, 255, 207, 0) 60%),
-    radial-gradient(closest-side at 62% 66%, #12e58f 0%, rgba(18, 229, 143, 0) 62%),
-    radial-gradient(closest-side, #0bd08c 0%, #0a7d5e 46%, rgba(8, 90, 66, 0) 74%);
-  border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%;
-  animation: orb-morph 13s ease-in-out infinite alternate;
 }
-.projetos__orb::before {
-  content: "";
+.projetos__orb-defs { position: absolute; width: 0; height: 0; }
+
+.projetos__orb-halo {
   position: absolute;
-  inset: 18% 22% 30% 16%;
-  border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
-  background: radial-gradient(closest-side, #d7ffe6 0%, rgba(120, 255, 200, 0) 70%);
-  animation: orb-morph 9s ease-in-out infinite alternate-reverse;
+  inset: -18%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(26, 240, 152, 0.5) 0%, rgba(26, 240, 152, 0) 70%);
+  filter: blur(24px);
+  mix-blend-mode: screen;
+  animation: orb-breathe 7s ease-in-out infinite alternate;
 }
-@keyframes orb-morph {
-  0%   { border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%; transform: translateY(-50%) rotate(0deg) scale(1); }
-  50%  { border-radius: 62% 38% 43% 57% / 57% 60% 40% 43%; transform: translateY(-55%) rotate(10deg) scale(1.08); }
-  100% { border-radius: 36% 64% 56% 44% / 47% 39% 61% 53%; transform: translateY(-45%) rotate(-8deg) scale(0.95); }
+
+.projetos__orb-body {
+  position: absolute;
+  inset: 6%;
+  filter: url(#orb-goo);
 }
+.projetos__orb-body i {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 32%, #ccffe1 0%, #18e090 46%, #0a8f66 80%);
+  will-change: transform;
+}
+.projetos__orb-body i:nth-child(1) { width: 66%; height: 66%; left: 17%; top: 17%; animation: orb-a 8s  ease-in-out infinite; }
+.projetos__orb-body i:nth-child(2) { width: 44%; height: 44%; left: 6%;  top: 32%; animation: orb-b 11s ease-in-out infinite; }
+.projetos__orb-body i:nth-child(3) { width: 38%; height: 38%; left: 54%; top: 10%; animation: orb-c 9s  ease-in-out infinite; }
+.projetos__orb-body i:nth-child(4) { width: 34%; height: 34%; left: 48%; top: 56%; animation: orb-d 13s ease-in-out infinite; }
+
+@keyframes orb-breathe { from { transform: scale(0.92); opacity: 0.75; } to { transform: scale(1.1); opacity: 1; } }
+@media (max-width: 640px) {
+  .projetos__orb {
+    top: -4%;
+    right: -38%;
+    width: min(72vw, 300px);
+    transform: none;
+    opacity: 0.7;
+  }
+}
+@keyframes orb-a { 0%, 100% { transform: translate(0, 0) scale(1); }      50% { transform: translate(-7%, 5%) scale(1.07); } }
+@keyframes orb-b { 0%, 100% { transform: translate(0, 0) scale(1); }      50% { transform: translate(16%, -11%) scale(1.16); } }
+@keyframes orb-c { 0%, 100% { transform: translate(0, 0) scale(1); }      50% { transform: translate(-13%, 13%) scale(0.84); } }
+@keyframes orb-d { 0%, 100% { transform: translate(0, 0) scale(1); }      50% { transform: translate(-11%, -15%) scale(1.22); } }
 
 .section h2 {
   font-family: "Lato", "Inter", sans-serif;
@@ -510,5 +533,5 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
   .pscene__layer { transform: none !important; }
   .contact__cat-tail, .contact__cat-eye { animation: none; }
-  .projetos__orb { animation: none; }
+  .projetos__orb-halo, .projetos__orb-body i { animation: none; }
 }

@@ -139,7 +139,20 @@
     </section>
 
     <section class="section section--alt projetos" id="projetos">
-      <span class="projetos__orb" aria-hidden="true"></span>
+      <div class="projetos__orb" aria-hidden="true">
+        <svg class="projetos__orb-defs" viewBox="0 0 10 10">
+          <defs>
+            <filter id="orb-goo">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b" />
+              <feColorMatrix in="b" mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="g" />
+              <feBlend in="SourceGraphic" in2="g" />
+            </filter>
+          </defs>
+        </svg>
+        <span class="projetos__orb-halo"></span>
+        <span class="projetos__orb-body"><i></i><i></i><i></i><i></i></span>
+      </div>
       <div class="wrap">
         <h2>Projetos</h2>
         <ul class="cards">
