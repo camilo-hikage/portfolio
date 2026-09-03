@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 520">
+  <defs>
+  <radialGradient id="body-s" cx="36%" cy="32%" r="80%">
+    <stop offset="0%" stop-color="#efe0b8"/><stop offset="52%" stop-color="#d8bd83"/><stop offset="100%" stop-color="#8a6c3f"/>
+  </radialGradient>
+  <radialGradient id="term-s" cx="72%" cy="74%" r="72%">
+    <stop offset="45%" stop-color="#000010" stop-opacity="0"/><stop offset="100%" stop-color="#01030a" stop-opacity="0.72"/>
+  </radialGradient>
+  <radialGradient id="atmo-s" cx="50%" cy="50%" r="50%">
+    <stop offset="72%" stop-color="#efe0b8" stop-opacity="0"/><stop offset="90%" stop-color="#efe0b8" stop-opacity="0.22"/><stop offset="100%" stop-color="#efe0b8" stop-opacity="0"/>
+  </radialGradient>
+    <clipPath id="cs"><circle cx="390" cy="260" r="148"/></clipPath>
+  </defs>
+  <circle cx="390" cy="260" r="170" fill="url(#atmo-s)"/>
+  <g transform="rotate(-16 390 260)"><ellipse cx="390" cy="260" rx="300" ry="82" fill="none" stroke="#d8c39a" stroke-width="20" opacity="0.9"/><ellipse cx="390" cy="260" rx="270" ry="73" fill="none" stroke="#8b7a58" stroke-width="9" opacity="0.55"/><ellipse cx="390" cy="260" rx="248" ry="67" fill="none" stroke="#c7b487" stroke-width="16" opacity="0.85"/><ellipse cx="390" cy="260" rx="214" ry="58" fill="none" stroke="#ece0be" stroke-width="8" opacity="0.7"/></g>
+  <g clip-path="url(#cs)">
+    <circle cx="390" cy="260" r="148" fill="url(#body-s)"/>
+    <ellipse cx="390" cy="206" rx="148" ry="16" fill="#f3e8c8" opacity="0.4"/>
+    <ellipse cx="390" cy="266" rx="148" ry="20" fill="#b99a63" opacity="0.35"/>
+    <ellipse cx="390" cy="312" rx="148" ry="14" fill="#f3e8c8" opacity="0.25"/>
+    <ellipse cx="420" cy="234" rx="148" ry="13" fill="#241d30" opacity="0.30" transform="rotate(-16 390 260)"/>
+    <circle cx="390" cy="260" r="148" fill="url(#term-s)"/>
+  </g>
+  <g transform="rotate(-16 390 260)"><path d="M 90 260 A 300 82 0 0 0 690 260" fill="none" stroke="#d8c39a" stroke-width="20" opacity="0.9"/><path d="M 120 260 A 270 73 0 0 0 660 260" fill="none" stroke="#8b7a58" stroke-width="9" opacity="0.55"/><path d="M 142 260 A 248 67 0 0 0 638 260" fill="none" stroke="#c7b487" stroke-width="16" opacity="0.85"/><path d="M 176 260 A 214 58 0 0 0 604 260" fill="none" stroke="#ece0be" stroke-width="8" opacity="0.7"/></g>
+  <circle cx="390" cy="260" r="148" fill="none" stroke="#fff2d0" stroke-opacity="0.18" stroke-width="2"/>
+</svg>

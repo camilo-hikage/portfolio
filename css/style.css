@@ -1,5 +1,5 @@
 /* ============================================================
-   Tokens — tema "espaço" (Lua com vista para a Terra)
+   Tokens — tema "espaço"
    ============================================================ */
 :root {
   --space: #04050b;
@@ -11,9 +11,8 @@
   --surface: #111524;
   --border: #232a3f;
   --accent: #7cc0ff;
-  --accent-ink: #04050b;
 
-  --hero-scroll: 180vh; /* altura da região de scroll do hero (maior = parallax mais lento) */
+  --hero-scroll: 240vh; /* quanto maior, mais lento o zoom do hero */
 }
 
 /* ============================================================
@@ -31,12 +30,11 @@ body {
 }
 a { color: var(--accent); }
 img { max-width: 100%; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 
 /* ============================================================
-   Hero / Parallax
-   Técnica de camadas inspirada em
-   https://codepen.io/empatheticpolyglot/pen/LWBLNW
-   Arte SVG própria gerada por .claude/gen-moon.js
+   Hero — Explore the Space
+   Efeito inspirado no gist "Space Explore" de krishnaPC
    ============================================================ */
 .hero {
   position: relative;
@@ -52,126 +50,73 @@ img { max-width: 100%; }
   overflow: hidden;
 }
 
-.keyart {
+.space { position: absolute; inset: 0; }
+
+.space__layer {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.keyart_layer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  background-position: bottom center;
-  background-size: auto 100%;
-  background-repeat: repeat-x;
-  will-change: transform;
-}
-
-/* "chão" sólido logo abaixo de cada cordilheira: um pseudo-elemento filho
-   acompanha o transform e evita bordas duras quando a camada sobe */
-.keyart_layer::after {
-  content: "";
-  position: absolute;
-  left: -25vw;
-  right: -25vw;
-  top: calc(100% - 2px);
-  height: 300vh;
-  background: var(--ground, transparent);
-}
-
-/* céu estrelado: brilho atmosférico perto da Terra + estrelas repetidas */
-#sky {
-  background-color: var(--space);
-  background-image:
-    radial-gradient(ellipse 85% 62% at 74% 16%, #17294e 0%, #0b1530 42%, rgba(4, 5, 11, 0) 100%),
-    url("../images/moon/stars.svg");
-  background-repeat: no-repeat, repeat;
-  background-position: center, top left;
-  background-size: cover, 460px 460px;
-}
-#sky::after { display: none; }
-
-/* a Terra: disco no alto à direita, movimento lento (parallax) */
-#earth {
-  background-image: url("../images/moon/earth.svg");
+  inset: 0;
+  background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: right max(8px, 2vw) top max(10px, 3vh);
-  background-size: auto min(38vh, 46vw, 420px);
+  will-change: transform, opacity;
 }
-#earth::after { display: none; }
-
-/* cordilheiras lunares (fundo -> frente) */
-#ridge-1   { background-image: url("../images/moon/ridge-1.svg");   --ground: #6a6d78; }
-#ridge-2   { background-image: url("../images/moon/ridge-2.svg");   --ground: #545764; }
-#ridge-3   { background-image: url("../images/moon/ridge-3.svg");   --ground: #40424d; }
-#ridge-4   { background-image: url("../images/moon/ridge-4.svg");   --ground: #2c2e37; }
-#ridge-5   { background-image: url("../images/moon/ridge-5.svg");   --ground: #1a1b22; }
-#foreground{ background-image: url("../images/moon/foreground.svg"); --ground: #0b0b10; }
-
-#keyart-scrim {
-  background: linear-gradient(to bottom, rgba(4, 5, 11, 0) 45%, rgba(4, 5, 11, 0.55) 100%);
-  height: 100%;
-  pointer-events: none;
+/* --p: 0 no topo do hero -> 1 quando o palco solta (definido em js/space.js) */
+#bg-1 {
+  background-image: url("../images/space/bg-1.svg");
+  background-color: var(--space);
+  transform: scale(calc(1.35 - 0.35 * var(--p, 0)));
+}
+#bg-2 {
+  background-image: url("../images/space/bg-2.svg");
+  transform: scale(calc(1 + 0.28 * var(--p, 0)));
+}
+#bg-3 {
+  background-image: url("../images/space/bg-3.svg");
+  transform: scale(calc(1 + 0.62 * var(--p, 0)));
+  opacity: calc(1 - 0.4 * var(--p, 0));
 }
 
-/* ---- texto sobre o hero ---- */
+/* ---- texto do hero ---- */
 .hero__content {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   text-align: center;
-  padding: clamp(96px, 21vh, 280px) 24px 24px;
-  color: var(--hero-ink);
+  padding: 24px;
   z-index: 5;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
-}
-.hero__content::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: clamp(32px, 11vh, 170px);
-  width: min(820px, 92vw);
-  height: 380px;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(4, 6, 14, 0.55), rgba(4, 6, 14, 0) 70%);
-  pointer-events: none;
-  z-index: -1;
+  color: var(--hero-ink);
+  transform: translateY(calc(var(--p, 0) * -48px));
 }
 .hero__eyebrow {
-  margin: 0 0 8px;
+  margin: 0 0 clamp(12px, 3vh, 28px);
   font-family: "Barlow Condensed", sans-serif;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: clamp(0.72rem, 1.6vw, 0.95rem);
   font-weight: 600;
-  opacity: 0.75;
+  color: #aeb9d4;
 }
-.hero__title {
+.explore {
   margin: 0;
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
-  font-size: clamp(2.75rem, 9vw, 6rem);
-  line-height: 0.95;
-  letter-spacing: 0.02em;
   text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: 0.06em;
+  font-size: clamp(3rem, 13vw, 9.5rem);
+  text-shadow: 0 4px 40px rgba(4, 8, 22, 0.7);
 }
-.hero__subtitle {
-  margin: 12px 0 0;
-  font-size: clamp(1rem, 2.4vw, 1.35rem);
-  font-weight: 500;
+.explore--sub {
+  color: #8fb6ff;
+  font-size: clamp(2.1rem, 9vw, 6.6rem);
 }
 .hero__cta {
-  margin-top: 32px;
+  margin-top: clamp(28px, 5vh, 48px);
   display: inline-block;
-  padding: 10px 22px;
+  padding: 11px 26px;
   border: 2px solid var(--hero-ink);
   border-radius: 999px;
   color: var(--hero-ink);
@@ -180,15 +125,75 @@ img { max-width: 100%; }
   font-size: 0.95rem;
   transition: background 0.2s ease, color 0.2s ease;
 }
-.hero__cta:hover {
-  background: var(--hero-ink);
-  color: var(--space);
+.hero__cta:hover { background: var(--hero-ink); color: var(--space); }
+
+/* ============================================================
+   Planetas
+   ============================================================ */
+.planets {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding: clamp(64px, 10vh, 120px) 0 clamp(48px, 8vh, 96px);
+  overflow: hidden;
+}
+.planets__title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 clamp(28px, 6vh, 56px);
+}
+.planets__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 32px 48px;
+  align-items: center;
+}
+.planet { margin: 0; }
+.planet--neptune { grid-row: 1 / 3; }
+
+.planet__art {
+  aspect-ratio: 1 / 1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.planet--neptune .planet__art { background-image: url("../images/space/neptune.svg"); }
+.planet--jupiter .planet__art { background-image: url("../images/space/jupiter.svg"); }
+.planet--saturn  .planet__art { background-image: url("../images/space/saturn.svg"); aspect-ratio: 78 / 52; }
+
+.planet figcaption {
+  margin-top: 12px;
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  color: var(--muted);
+}
+
+/* animação de entrada (adiciona .is-in via JS) */
+.planet {
+  opacity: 0;
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.planet--neptune { transform: translateX(-14%) scale(0.72); }
+.planet--jupiter { transform: translate(14%, -9%) scale(0.72); }
+.planet--saturn  { transform: translate(14%, 10%) scale(0.72); }
+.planets.is-in .planet { opacity: 1; transform: none; }
+
+@media (max-width: 760px) {
+  .planets__grid { grid-template-columns: 1fr; gap: 24px; justify-items: center; }
+  .planet--neptune { grid-row: auto; }
+  .planet { width: 100%; max-width: 360px; text-align: center; }
+  .planet--jupiter { transform: translate(12%, 0) scale(0.72); }
+  .planet--saturn  { transform: translate(-12%, 0) scale(0.72); }
 }
 
 /* ============================================================
    Conteúdo
    ============================================================ */
-.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
 .section { padding: 96px 0; position: relative; z-index: 1; background: var(--bg); }
 .section--alt { background: var(--surface); border-block: 1px solid var(--border); }
@@ -235,5 +240,7 @@ img { max-width: 100%; }
   html { scroll-behavior: auto; }
   .hero { height: 100vh; }
   .hero__stage { position: relative; }
-  .keyart_layer { transform: none !important; }
+  .space__layer { transform: none !important; opacity: 1 !important; }
+  .hero__content { transform: none !important; }
+  .planet { opacity: 1 !important; transform: none !important; transition: none; }
 }

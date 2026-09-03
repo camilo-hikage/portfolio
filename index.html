@@ -4,39 +4,53 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Camilo Hikage — Portfólio</title>
-  <meta name="description" content="Portfólio pessoal com hero em parallax: a Lua com vista para a Terra." />
+  <meta name="description" content="Portfólio pessoal — Explore the Space: hero em parallax com zoom e uma seção de planetas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- ================= HERO / PARALLAX ================= -->
-  <!-- Cena "A Lua com vista para a Terra": camadas SVG geradas por
-       .claude/gen-moon.js. Cada camada rola a uma velocidade (data-speed). -->
+  <!-- ================= HERO — EXPLORE THE SPACE =================
+       Efeito adaptado do gist "Space Explore" de krishnaPC:
+       3 camadas de fundo que dão zoom conforme a página rola. -->
   <header class="hero" id="top">
     <div class="hero__stage">
-      <div class="keyart" id="parallax">
-        <div class="keyart_layer" id="sky"></div>
-        <div class="keyart_layer parallax" id="earth" data-speed="4"></div>
-        <div class="keyart_layer parallax" id="ridge-1" data-speed="10"></div>
-        <div class="keyart_layer parallax" id="ridge-2" data-speed="18"></div>
-        <div class="keyart_layer parallax" id="ridge-3" data-speed="30"></div>
-        <div class="keyart_layer parallax" id="ridge-4" data-speed="46"></div>
-        <div class="keyart_layer" id="keyart-scrim"></div>
-        <div class="keyart_layer parallax" id="ridge-5" data-speed="66"></div>
-        <div class="keyart_layer parallax" id="foreground" data-speed="100"></div>
+      <div class="space">
+        <div class="space__layer" id="bg-1"></div>
+        <div class="space__layer" id="bg-2"></div>
+        <div class="space__layer" id="bg-3"></div>
       </div>
 
       <div class="hero__content">
-        <p class="hero__eyebrow">Portfólio</p>
-        <h1 class="hero__title">Camilo Hikage</h1>
-        <!-- edite a linha abaixo com a sua atuação -->
-        <p class="hero__subtitle">Desenvolvedor de Software</p>
-        <a class="hero__cta" href="#sobre">Ver mais &darr;</a>
+        <p class="hero__eyebrow">Camilo Hikage · Portfólio</p>
+        <p class="explore">Explore</p>
+        <p class="explore explore--sub">the&nbsp;space</p>
+        <a class="hero__cta" href="#planetas">Explorar &darr;</a>
       </div>
     </div>
   </header>
+
+  <!-- ================= PLANETAS ================= -->
+  <section class="planets" id="planetas">
+    <div class="wrap">
+      <h2 class="planets__title">Planetas</h2>
+      <div class="planets__grid">
+        <figure class="planet planet--neptune">
+          <div class="planet__art"></div>
+          <figcaption>Neptune</figcaption>
+        </figure>
+        <figure class="planet planet--jupiter">
+          <div class="planet__art"></div>
+          <figcaption>Jupiter</figcaption>
+        </figure>
+        <figure class="planet planet--saturn">
+          <div class="planet__art"></div>
+          <figcaption>Saturn</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
 
   <!-- ================= CONTEÚDO ================= -->
   <main>
@@ -45,8 +59,8 @@
         <h2>Sobre</h2>
         <p>
           Substitua este texto por uma breve apresentação sua. O topo da página
-          usa um efeito de parallax em camadas: cada camada se move a uma
-          velocidade diferente conforme você rola, criando profundidade.
+          usa camadas de fundo que dão zoom conforme você rola; a seção de
+          planetas surge com uma animação quando entra na tela.
         </p>
       </div>
     </section>
@@ -73,13 +87,14 @@
   <footer class="footer">
     <div class="wrap">
       <p>
-        Hero em parallax com arte SVG própria (a Lua com vista para a Terra).
-        Técnica de camadas inspirada no
-        <a href="https://codepen.io/empatheticpolyglot/pen/LWBLNW" rel="noopener" target="_blank">parallax de Empathetic Polyglot</a>.
+        Hero e seção de planetas com arte SVG própria (gerada por
+        <code>.claude/gen-space.js</code>); efeito inspirado no gist
+        <a href="https://gist.github.com/krishnaPC/969d74c4fc13285ee77e77269288dd11" rel="noopener" target="_blank">Space Explore</a>
+        de krishnaPC.
       </p>
     </div>
   </footer>
 
-  <script src="js/parallax.js"></script>
+  <script src="js/space.js"></script>
 </body>
 </html>
