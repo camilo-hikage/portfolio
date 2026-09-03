@@ -18,13 +18,15 @@
     });
   }
 
-  /* ---- cena de montanhas: parallax por variável CSS controlada por JS
-     (técnica do pen de electerious) ---- */
+  /* ---- cena de montanhas: parallax por variável CSS (--ty) controlada no
+     scroll — mesma técnica do CodePen de electerious. As camadas do fundo
+     translam mais que as da frente. ---- */
   var pscene = document.querySelector(".pscene");
-  if (pscene && !reduce) {
-    var layers = [].slice.call(pscene.querySelectorAll(".pscene__layer"));
-    var mods = layers.map(function (l) {
-      return (parseFloat(l.getAttribute("data-modifier")) || 0) * 2.4;
+  var imgs = pscene ? [].slice.call(pscene.querySelectorAll(".pscene__img")) : [];
+
+  if (pscene && imgs.length && !reduce) {
+    var range = imgs.map(function (img) {
+      return 1.4 * (parseFloat(img.getAttribute("data-modifier")) || 0);
     });
     var pLast = null;
     var pUpdate = function () {
@@ -34,8 +36,8 @@
       prog = prog < 0 ? 0 : prog > 1 ? 1 : prog;
       if (prog === pLast) return;
       pLast = prog;
-      for (var i = 0; i < layers.length; i++) {
-        layers[i].style.setProperty("--ty", (prog * mods[i]).toFixed(1) + "px");
+      for (var i = 0; i < imgs.length; i++) {
+        imgs[i].style.setProperty("--ty", (prog * range[i]).toFixed(1) + "px");
       }
     };
     window.addEventListener("scroll", pUpdate, { passive: true });

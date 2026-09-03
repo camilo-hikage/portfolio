@@ -115,32 +115,26 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 @keyframes bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
 
 /* ============================================================
-   Cena de parallax (scroll) — inspirada em electerious
+   Cena de parallax (scroll) — CodePen de electerious
    ============================================================ */
 .pscene {
   position: relative;
-  height: clamp(360px, 62vh, 620px);
+  width: 100%;
+  height: clamp(240px, 30vw, 440px);
   overflow: hidden;
-  background: #c9d4dc;
+  background: #cdd6da;
 }
-.pscene__layer {
+.pscene__img {
   position: absolute;
   left: 0;
-  right: 0;
-  top: -22%;
-  bottom: 0;
-  background-position: bottom center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  top: -20%;
+  width: 100%;
+  height: 140%;
+  object-fit: cover;
+  object-position: center 55%;
   transform: translateY(var(--ty, 0));
   will-change: transform;
 }
-.pscene__layer--0 { background-image: url("../images/scene/scene-0.svg"); }
-.pscene__layer--1 { background-image: url("../images/scene/scene-1.svg"); }
-.pscene__layer--2 { background-image: url("../images/scene/scene-2.svg"); }
-.pscene__layer--3 { background-image: url("../images/scene/scene-3.svg"); }
-.pscene__layer--4 { background-image: url("../images/scene/scene-4.svg"); }
-.pscene__layer--5 { background-image: url("../images/scene/scene-5.svg"); }
 
 /* ============================================================
    Conteúdo
@@ -177,6 +171,52 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .card h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .card p { margin: 0; font-size: 0.95rem; }
 
+/* ---- formulário de contato ---- */
+.contact-lead { color: var(--muted); }
+.contact-form {
+  display: grid;
+  gap: 14px;
+  max-width: 480px;
+  margin: 22px 0 26px;
+}
+.contact-form label { display: grid; gap: 6px; }
+.contact-form span {
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.contact-form input,
+.contact-form textarea {
+  font: inherit;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  width: 100%;
+  resize: vertical;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.contact-form button {
+  justify-self: start;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  color: #0c1826;
+  background: var(--accent);
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 24px;
+  transition: filter 0.2s ease;
+}
+.contact-form button:hover { filter: brightness(1.08); }
+.contact-alt { color: var(--muted); }
+
 .footer {
   padding: 40px 0;
   background: #081019;
@@ -192,5 +232,5 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
-  .pscene__layer { transform: none !important; }
+  .pscene__img { transform: none !important; }
 }
