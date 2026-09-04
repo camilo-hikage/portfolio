@@ -35,11 +35,11 @@
 
   <!-- ================= CONTEÚDO ================= -->
   <main>
-    <!-- Fundo animado da seção Sobre: disco de acreção de um buraco negro em
-         Canvas 2D. Recriação própria, inspirada no CodePen "The Life of a
-         Singularity" de VoXelo (three.js). -->
+    <!-- Fundo da seção Sobre: malha de gradientes com background-blend-mode que
+         reage ao ponteiro (--posX/--posY). Adaptado do CodePen "gradient blend
+         background" de MarkBoots. -->
     <section class="section sobre" id="sobre">
-      <canvas class="sobre__bg" id="sobre-bg" aria-hidden="true"></canvas>
+      <div class="sobre__bg" id="sobre-bg" aria-hidden="true"></div>
       <div class="wrap">
         <h2>Sobre</h2>
 
@@ -60,17 +60,15 @@
               áreas de interesse, ou um resumo em uma frase.
             </p>
             <p>
-              A linha do tempo abaixo mostra os marcos da trajetória — ajuste as
+              A linha do tempo mostra os marcos da trajetória — ajuste as
               datas e os textos como quiser.
             </p>
-          </div>
-        </div>
 
-        <!-- Linha do tempo isométrica — porte fiel do CodePen "Isometric
-             timeline" de Timur Bilalov (Tims101). CSS puro. Edite datas/títulos.
-             Modificadores do rótulo: _x / _y / _z giram o texto; _top-N sobe o
-             rótulo N px. -->
-        <div class="iso-tl" aria-label="Linha do tempo">
+            <!-- Linha do tempo isométrica — porte fiel do CodePen "Isometric
+                 timeline" de Timur Bilalov (Tims101). CSS puro. Edite datas/títulos.
+                 Modificadores do rótulo: _x / _y / _z giram o texto; _top-N sobe o
+                 rótulo N px. -->
+            <div class="iso-tl" aria-label="Linha do tempo">
           <div class="pw-timeline">
             <div class="pw-timeline__line">
               <a class="pw-timeline-point" style="margin-right: 90px">
@@ -134,6 +132,8 @@
                   </div>
                 </div>
               </a>
+            </div>
+          </div>
             </div>
           </div>
         </div>
@@ -248,7 +248,7 @@
         <a href="https://codepen.io/prisoner849/pen/ogBXRvN" rel="noopener" target="_blank">prisoner849</a>,
         <a href="https://codepen.io/Tims101/pen/yVXOjL" rel="noopener" target="_blank">Timur Bilalov</a>,
         <a href="https://codepen.io/TaminoMartinius/pen/MYJEyer" rel="noopener" target="_blank">TaminoMartinius</a>
-        e <a href="https://codepen.io/VoXelo/pen/VYKMNwE" rel="noopener" target="_blank">VoXelo</a>.
+        e <a href="https://codepen.io/MarkBoots/pen/LYjvEJj" rel="noopener" target="_blank">MarkBoots</a>.
       </p>
     </div>
   </footer>
