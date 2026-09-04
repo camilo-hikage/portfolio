@@ -264,7 +264,7 @@
 
     var FS = [
       "precision highp float;",
-      "uniform vec2 uRes;uniform float uTime;",
+      "uniform vec2 uRes;uniform float uTime;uniform float uProg;",
       "#define STEPS 22",
       "#define REFINE 5",
       "float hash(vec2 p){return fract(sin(dot(p,vec2(23.17,71.93)))*3571.19);}",
@@ -291,15 +291,24 @@
       "void main(){",
       "  vec2 uv=(gl_FragCoord.xy-0.5*uRes)/uRes.y;",
       "  float t=uTime;",
+      "  float pr=clamp(uProg,0.,1.);",
+      "  float night=smoothstep(0.40,0.92,pr);",
       "  vec3 ro=vec3(0.,1.25+sin(t*0.25)*0.02,0.);",
       "  vec3 rd=normalize(vec3(uv.x,uv.y-0.045,-1.25));",
-      "  vec3 sunDir=normalize(vec3(0.10,0.055,-1.0));",
-      "  vec3 skyTop=vec3(0.09,0.12,0.26);",
-      "  vec3 skyHor=vec3(0.98,0.56,0.31);",
-      "  vec3 sunCol=vec3(1.0,0.78,0.46);",
-      "  vec3 seaLo=vec3(0.03,0.06,0.11);",
-      "  vec3 seaHi=vec3(0.16,0.21,0.29);",
-      "  vec3 fog=vec3(0.94,0.60,0.40);",
+      // sol à direita, descendo até sumir sob o horizonte conforme o scroll
+      "  float sunY=mix(0.16,-0.10,pr);",
+      "  vec3 sunDir=normalize(vec3(0.44,sunY,-1.0));",
+      "  vec3 moonDir=normalize(vec3(-0.32,0.40,-1.0));",
+      "  float glow=smoothstep(-0.12,0.05,sunDir.y);",
+      "  float above=smoothstep(-0.03,0.03,sunDir.y);",
+      // paletas dia -> noite
+      "  vec3 skyTop=mix(vec3(0.09,0.12,0.26),vec3(0.010,0.015,0.05),night);",
+      "  vec3 skyHor=mix(vec3(0.98,0.56,0.31),vec3(0.04,0.05,0.13),night);",
+      "  vec3 sunCol=mix(vec3(1.0,0.78,0.46),vec3(1.0,0.40,0.18),smoothstep(0.15,0.6,pr));",
+      "  vec3 moonCol=vec3(0.80,0.85,1.0);",
+      "  vec3 seaLo=mix(vec3(0.03,0.06,0.11),vec3(0.008,0.012,0.032),night);",
+      "  vec3 seaHi=mix(vec3(0.16,0.21,0.29),vec3(0.03,0.05,0.10),night);",
+      "  vec3 fog=mix(vec3(0.94,0.60,0.40),vec3(0.05,0.06,0.14),night);",
       "  vec3 col;",
       "  if(rd.y<0.0){",
       "    float tp=ro.y/(-rd.y);",
@@ -321,25 +330,34 @@
       "    vec3 rfl=reflect(rd,n);",
       "    vec3 sky=mix(skyHor,skyTop,clamp(rfl.y,0.,1.));",
       "    float rs=max(dot(rfl,sunDir),0.);",
-      "    sky+=sunCol*pow(rs,180.0)*2.6;",
-      "    sky+=sunCol*pow(rs,16.0)*0.12;",
+      "    sky+=sunCol*pow(rs,180.0)*2.6*glow;",
+      "    sky+=sunCol*pow(rs,16.0)*0.12*glow;",
+      "    float rm=max(dot(rfl,moonDir),0.);",
+      "    sky+=moonCol*pow(rm,200.0)*1.4*night;",
       "    float depth=exp(-m*0.55);",
       "    vec3 water=mix(seaLo,seaHi,depth);",
       "    col=mix(water,sky,clamp(0.12+fres*0.82,0.,1.));",
       "    float glint=pow(max(dot(reflect(-sunDir,n),-rd),0.),140.0);",
-      "    col+=sunCol*glint*1.6;",
+      "    col+=sunCol*glint*1.6*glow;",
+      "    float mglint=pow(max(dot(reflect(-moonDir,n),-rd),0.),260.0);",
+      "    col+=moonCol*mglint*0.5*night;",
       "    float hc=wh(wp,t);",
       "    float cur=wh(wp+vec2(0.03,0.),t)+wh(wp-vec2(0.03,0.),t)+wh(wp+vec2(0.,0.03),t)+wh(wp-vec2(0.,0.03),t)-4.0*hc;",
-      "    col+=vec3(1.0)*clamp(cur*22.0,0.,1.)*0.10;",
+      "    col+=vec3(1.0)*clamp(cur*22.0,0.,1.)*0.10*(1.0-0.6*night);",
       "    float f=1.0-exp(-m*0.028);",
       "    col=mix(col,fog,f*0.62);",
       "  }else{",
       "    float h=clamp(rd.y,0.,1.);",
       "    col=mix(skyHor,skyTop,pow(h,0.42));",
       "    float sd=max(dot(rd,sunDir),0.);",
-      "    col+=sunCol*pow(sd,380.0)*6.0;",
-      "    col+=sunCol*pow(sd,10.0)*0.28;",
-      "    col+=sunCol*pow(sd,3.0)*0.06;",
+      "    col+=sunCol*pow(sd,380.0)*6.0*above;",
+      "    col+=sunCol*pow(sd,10.0)*0.28*glow;",
+      "    col+=sunCol*pow(sd,3.0)*0.06*glow;",
+      "    float md=max(dot(rd,moonDir),0.);",
+      "    col+=moonCol*smoothstep(0.9975,0.9995,md)*2.4*night;",
+      "    col+=moonCol*pow(md,8.0)*0.05*night;",
+      "    float sf=hash(floor(rd.xy*vec2(240.0,240.0)));",
+      "    col+=vec3(0.9,0.92,1.0)*smoothstep(0.987,1.0,sf)*night*smoothstep(0.03,0.28,rd.y);",
       "    col+=fog*exp(-abs(rd.y)*26.0)*0.10;",
       "  }",
       "  float hb=smoothstep(-0.012,0.012,rd.y);",
@@ -377,7 +395,17 @@
 
     var uRes = gl.getUniformLocation(prog, "uRes");
     var uTime = gl.getUniformLocation(prog, "uTime");
+    var uProg = gl.getUniformLocation(prog, "uProg");
     var DPR = Math.min(window.devicePixelRatio || 1, 1.25);
+
+    // progresso 0..1: 0 quando a seção entra por baixo, 1 quando sai por cima
+    var sceneProg = 0;
+    function targetProg() {
+      var r = host.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var p = (vh - r.top) / (vh + r.height);
+      return p < 0 ? 0 : p > 1 ? 1 : p;
+    }
 
     function resize() {
       var r = host.getBoundingClientRect();
@@ -392,6 +420,10 @@
 
     var t0 = performance.now();
     function render(now) {
+      var tp = targetProg();
+      sceneProg += reduce ? (tp - sceneProg) : (tp - sceneProg) * 0.12;
+      if (Math.abs(tp - sceneProg) < 0.001) sceneProg = tp;
+      gl.uniform1f(uProg, sceneProg);
       gl.uniform1f(uTime, (now - t0) / 1000);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
@@ -408,6 +440,8 @@
     resize();
     render(performance.now());
     window.addEventListener("resize", function () { resize(); if (!running) render(performance.now()); }, { passive: true });
+    // acompanha o scroll mesmo quando o rAF está lento ou pausado
+    window.addEventListener("scroll", function () { render(performance.now()); }, { passive: true });
 
     if (reduce) return;
     if ("IntersectionObserver" in window) {
