@@ -299,6 +299,23 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   transition: transform calc(var(--pc-d) * 2) var(--pc-e);
 }
 
+/* logo do estabelecimento — sempre visível no canto */
+.proj-card__logo {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: contain;
+  padding: 5px;
+  background: rgba(6, 12, 20, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
 .proj-card__content {
   position: relative;
   z-index: 1;

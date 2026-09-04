@@ -89,24 +89,44 @@
       <div class="wrap">
         <h2>Projetos</h2>
         <!-- Cards com hover expandindo — porte do CodePen "CSS Only Hover Cards"
-             de hexagoncircle. Troque a imagem de fundo de cada card em
-             --card-img (css/style.css) por um print real do projeto. -->
+             de hexagoncircle. O logo de cada estabelecimento fica no canto. -->
         <ul class="proj-grid">
           <li class="proj-card proj-card--1">
+            <img class="proj-card__logo" src="images/projetos/cronometro-logo.png" alt="Logo do app-cron" loading="lazy" />
             <div class="proj-card__content">
-              <h3 class="proj-card__title">App de Cronômetro</h3>
-              <p class="proj-card__copy">Aplicativo de cronômetro. (descrição em breve)</p>
-              <a class="proj-card__btn" href="#projetos">Ver projeto</a>
+              <p class="proj-card__meta">PWA · no ar</p>
+              <h3 class="proj-card__title">Cronômetro</h3>
+              <p class="proj-card__copy">
+                Cronômetro e timer regressivo em PWA: mostrador circular com
+                waveform, efeito glitch que intensifica nos últimos segundos,
+                seletor de alarme, Wake Lock pra manter a tela ligada e fundos
+                animados selecionáveis. Estático, sem build.
+              </p>
+              <ul class="proj-card__tags">
+                <li>PWA</li><li>JavaScript</li><li>Canvas / WebGL</li><li>sem build</li>
+              </ul>
+              <a class="proj-card__btn" href="https://app-cron.vercel.app/" rel="noopener" target="_blank">Abrir app</a>
             </div>
           </li>
           <li class="proj-card proj-card--2">
+            <img class="proj-card__logo" src="images/projetos/tio-logo.png" alt="Logo do Tio Bar e Restaurante" loading="lazy" />
             <div class="proj-card__content">
-              <h3 class="proj-card__title">Tio do Dog</h3>
-              <p class="proj-card__copy">(descrição em breve)</p>
-              <a class="proj-card__btn" href="#projetos">Ver projeto</a>
+              <p class="proj-card__meta">Site institucional</p>
+              <h3 class="proj-card__title">Tio Bar e Restaurante</h3>
+              <p class="proj-card__copy">
+                Site institucional em Next.js 15 (App Router), sem backend
+                próprio: cardápio, avaliações do Google, Instagram e mapa vêm de
+                serviços externos gratuitos, com o site estático e revalidação
+                a cada hora.
+              </p>
+              <ul class="proj-card__tags">
+                <li>Next.js</li><li>TypeScript</li><li>ISR</li>
+              </ul>
+              <a class="proj-card__btn" href="https://github.com/camilo-hikage/avaliacoes" rel="noopener" target="_blank">Ver no GitHub</a>
             </div>
           </li>
           <li class="proj-card proj-card--3 proj-card--photo">
+            <img class="proj-card__logo" src="images/projetos/pargo-logo.jpg" alt="Logo do Pargo Fish Bar" loading="lazy" />
             <div class="proj-card__content">
               <p class="proj-card__meta">Ubatuba, SP · site institucional</p>
               <h3 class="proj-card__title">Pargo Fish Bar</h3>
