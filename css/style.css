@@ -230,22 +230,135 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   .sobre__grid { grid-template-columns: 1fr; gap: 18px; }
 }
 
-.cards {
+/* Cards de Projetos — hover expande e revela o texto.
+   Porte do CodePen "CSS Only Hover Cards" de hexagoncircle. */
+.proj-grid {
+  --pc-d: 640ms;
+  --pc-e: cubic-bezier(0.19, 1, 0.22, 1);
   list-style: none;
   padding: 0;
-  margin: 24px 0 0;
+  margin: 28px 0 0;
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  grid-template-columns: 1fr;
 }
-.card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
+@media (min-width: 620px) {
+  .proj-grid { grid-template-columns: repeat(3, 1fr); }
 }
-.card h3 { margin: 0 0 6px; font-size: 1.1rem; }
-.card p { margin: 0; font-size: 0.95rem; }
+
+.proj-card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 1rem;
+  min-height: 220px;
+  border-radius: 14px;
+  text-align: center;
+  color: #f4f6fb;
+  background: #0c1826;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+@media (min-width: 620px) {
+  .proj-card { height: 360px; }
+}
+
+/* camada de imagem/gradiente */
+.proj-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -10% 0;
+  background: var(--card-img, linear-gradient(135deg, #23406b, #0c1826));
+  background-size: cover;
+  background-position: center;
+  transition: transform calc(var(--pc-d) * 1.5) var(--pc-e);
+  pointer-events: none;
+}
+.proj-card--1 { --card-img: linear-gradient(150deg, #1f7a8c 0%, #0b132b 70%); }
+.proj-card--2 { --card-img: linear-gradient(150deg, #b5533b 0%, #2a0f0a 70%); }
+.proj-card--3 { --card-img: linear-gradient(150deg, #3a7d5d 0%, #08131b 70%); }
+
+/* scrim de baixo pra cima */
+.proj-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  pointer-events: none;
+  background-image: linear-gradient(to bottom,
+    rgba(6, 12, 20, 0) 0%, rgba(6, 12, 20, 0.15) 40%,
+    rgba(6, 12, 20, 0.55) 68%, rgba(6, 12, 20, 0.82) 100%);
+  transform: translateY(-50%);
+  transition: transform calc(var(--pc-d) * 2) var(--pc-e);
+}
+
+.proj-card__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  transition: transform var(--pc-d) var(--pc-e);
+}
+.proj-card__content > * + * { margin-top: 0.9rem; }
+
+.proj-card__title {
+  margin: 0;
+  font-family: "Lato", "Inter", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+.proj-card__copy {
+  margin: 0;
+  max-width: none;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #dfe7ee;
+}
+.proj-card__btn {
+  align-self: center;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #06121f;
+  background: var(--accent);
+  border-radius: 6px;
+}
+.proj-card__btn:hover { filter: brightness(1.1); }
+
+/* interação de hover só onde faz sentido (ponteiro fino, tela larga) */
+@media (hover: hover) and (min-width: 620px) {
+  .proj-card::after { transform: translateY(0); }
+  .proj-card__content { transform: translateY(calc(100% - 3.5rem)); }
+  .proj-card__content > *:not(.proj-card__title) {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition: transform var(--pc-d) var(--pc-e), opacity var(--pc-d) var(--pc-e);
+  }
+  .proj-card:hover,
+  .proj-card:focus-within { align-items: center; }
+  .proj-card:hover::before,
+  .proj-card:focus-within::before { transform: translateY(-4%); }
+  .proj-card:hover::after,
+  .proj-card:focus-within::after { transform: translateY(-50%); }
+  .proj-card:hover .proj-card__content,
+  .proj-card:focus-within .proj-card__content { transform: translateY(0); }
+  .proj-card:hover .proj-card__content > *:not(.proj-card__title),
+  .proj-card:focus-within .proj-card__content > *:not(.proj-card__title) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(var(--pc-d) / 8);
+  }
+}
 
 /* ---- seção de contato + fundo animado ---- */
 .contact { position: relative; overflow: hidden; background: #05100f; }
@@ -398,4 +511,6 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   .orbit--slow, .orbit--fast, .hero__scroll { animation: none; }
   .pscene__layer { transform: none !important; }
   .contact__cat-tail, .contact__cat-eye { animation: none; }
+  .proj-card::before, .proj-card::after,
+  .proj-card__content, .proj-card__content > * { transition: none !important; }
 }
