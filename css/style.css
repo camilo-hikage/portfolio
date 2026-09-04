@@ -274,14 +274,28 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   transition: transform calc(var(--pc-d) * 1.5) var(--pc-e);
   pointer-events: none;
 }
-.proj-card--1 { --card-img: linear-gradient(150deg, #1f7a8c 0%, #0b132b 70%); }
-.proj-card--2 { --card-img: linear-gradient(150deg, #b5533b 0%, #2a0f0a 70%); }
+.proj-card--1 {
+  --card-img:
+    linear-gradient(150deg, rgba(60, 40, 110, 0.35) 0%, rgba(8, 10, 22, 0.78) 74%),
+    url("../images/projetos/cronometro-shot.jpg");
+}
+.proj-card--2 {
+  --card-img:
+    linear-gradient(180deg, rgba(14, 10, 8, 0.72) 0%, rgba(120, 70, 20, 0.20) 34%, rgba(14, 10, 8, 0.82) 78%),
+    url("../images/projetos/tio-history.jpg");
+}
 .proj-card--3 {
   --card-img:
     linear-gradient(155deg, rgba(28, 44, 92, 0.30) 0%, rgba(8, 15, 25, 0.72) 72%),
     url("../images/projetos/pargo-fish-bar.jpg");
 }
-.proj-card--photo::before { background-color: #08131b; }
+.proj-card--1::before,
+.proj-card--3::before { background-color: #08131b; }
+/* foto do Tio ancorada embaixo (balcão/comida), fora do enquadramento dos rostos */
+.proj-card--2::before {
+  background-color: #0e0a08;
+  background-position: center bottom;
+}
 
 /* scrim de baixo pra cima */
 .proj-card::after {
