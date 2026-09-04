@@ -276,7 +276,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 }
 .proj-card--1 { --card-img: linear-gradient(150deg, #1f7a8c 0%, #0b132b 70%); }
 .proj-card--2 { --card-img: linear-gradient(150deg, #b5533b 0%, #2a0f0a 70%); }
-.proj-card--3 { --card-img: linear-gradient(150deg, #3a7d5d 0%, #08131b 70%); }
+.proj-card--3 {
+  --card-img:
+    linear-gradient(155deg, rgba(28, 44, 92, 0.30) 0%, rgba(8, 15, 25, 0.72) 72%),
+    url("../images/projetos/pargo-fish-bar.jpg");
+}
+.proj-card--photo::before { background-color: #08131b; }
 
 /* scrim de baixo pra cima */
 .proj-card::after {
@@ -314,12 +319,36 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   letter-spacing: 0.04em;
   line-height: 1.2;
 }
-.proj-card__copy {
+.proj-card__content .proj-card__meta {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.proj-card__content .proj-card__copy {
   margin: 0;
   max-width: none;
   font-size: 0.95rem;
   line-height: 1.5;
   color: #dfe7ee;
+}
+.proj-card__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.proj-card__tags li {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  color: #e7edf5;
 }
 .proj-card__btn {
   align-self: center;
