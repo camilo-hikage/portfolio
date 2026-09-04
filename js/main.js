@@ -245,4 +245,177 @@
       sbg.style.setProperty("--posY", (e.clientY - r.top - r.height / 2).toFixed(1));
     }, { passive: true });
   }
+
+  /* ============================================================
+     FUNDO DE PROJETOS — oceano até o horizonte (WebGL).
+     Raymarch de uma malha de ondas (soma de senos + ruído) sob um
+     céu de fim de tarde, com reflexo, brilho do sol e espuma nas
+     cristas. Implementação própria, inspirada no CodePen "The
+     Endless Horizon" de Less Rain.
+     ============================================================ */
+  (function () {
+    var cv = document.getElementById("projetos-sea");
+    if (!cv) return;
+    var host = cv.closest(".projetos") || cv.parentElement;
+    var gl = cv.getContext("webgl", { alpha: false, antialias: false, depth: false, powerPreference: "low-power" });
+    if (!gl) { cv.style.display = "none"; return; }
+
+    var VS = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
+
+    var FS = [
+      "precision highp float;",
+      "uniform vec2 uRes;uniform float uTime;",
+      "#define STEPS 22",
+      "#define REFINE 5",
+      "float hash(vec2 p){return fract(sin(dot(p,vec2(23.17,71.93)))*3571.19);}",
+      "float vnoise(vec2 p){",
+      "  vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);",
+      "  float a=hash(i),b=hash(i+vec2(1,0)),c=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));",
+      "  return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);",
+      "}",
+      "float wh(vec2 q,float t){",
+      "  float h=0.;",
+      "  h+=sin(q.x*0.85+t*0.75)*0.34;",
+      "  h+=sin(q.y*0.62-t*0.52+q.x*0.20)*0.24;",
+      "  h+=sin((q.x+q.y*0.7)*1.55+t*1.05)*0.13;",
+      "  h+=sin(q.x*3.30-t*1.55+q.y*0.55)*0.06;",
+      "  h+=(vnoise(q*4.2+vec2(t*0.25,-t*0.1))-0.5)*0.14;",
+      "  return h*0.11;",
+      "}",
+      "vec3 wn(vec2 q,float t){",
+      "  float e=0.02;",
+      "  float l=wh(q-vec2(e,0.),t),r=wh(q+vec2(e,0.),t);",
+      "  float d=wh(q-vec2(0.,e),t),u=wh(q+vec2(0.,e),t);",
+      "  return normalize(vec3(l-r,2.*e,d-u));",
+      "}",
+      "void main(){",
+      "  vec2 uv=(gl_FragCoord.xy-0.5*uRes)/uRes.y;",
+      "  float t=uTime;",
+      "  vec3 ro=vec3(0.,1.25+sin(t*0.25)*0.02,0.);",
+      "  vec3 rd=normalize(vec3(uv.x,uv.y-0.045,-1.25));",
+      "  vec3 sunDir=normalize(vec3(0.10,0.055,-1.0));",
+      "  vec3 skyTop=vec3(0.09,0.12,0.26);",
+      "  vec3 skyHor=vec3(0.98,0.56,0.31);",
+      "  vec3 sunCol=vec3(1.0,0.78,0.46);",
+      "  vec3 seaLo=vec3(0.03,0.06,0.11);",
+      "  vec3 seaHi=vec3(0.16,0.21,0.29);",
+      "  vec3 fog=vec3(0.94,0.60,0.40);",
+      "  vec3 col;",
+      "  if(rd.y<0.0){",
+      "    float tp=ro.y/(-rd.y);",
+      "    float st=tp/float(STEPS);float m=st;",
+      "    for(int i=0;i<STEPS;i++){",
+      "      vec2 wp=ro.xz+rd.xz*m;",
+      "      if(ro.y+rd.y*m < wh(wp,t)) break;",
+      "      m+=st;",
+      "    }",
+      "    float a=m-st,b=m;",
+      "    for(int i=0;i<REFINE;i++){",
+      "      float mm=(a+b)*0.5;",
+      "      if(ro.y+rd.y*mm < wh(ro.xz+rd.xz*mm,t)) b=mm; else a=mm;",
+      "    }",
+      "    m=(a+b)*0.5;",
+      "    vec2 wp=ro.xz+rd.xz*m;",
+      "    vec3 n=wn(wp,t);",
+      "    float fres=pow(1.0-clamp(dot(n,-rd),0.,1.),5.0);",
+      "    vec3 rfl=reflect(rd,n);",
+      "    vec3 sky=mix(skyHor,skyTop,clamp(rfl.y,0.,1.));",
+      "    float rs=max(dot(rfl,sunDir),0.);",
+      "    sky+=sunCol*pow(rs,180.0)*2.6;",
+      "    sky+=sunCol*pow(rs,16.0)*0.12;",
+      "    float depth=exp(-m*0.55);",
+      "    vec3 water=mix(seaLo,seaHi,depth);",
+      "    col=mix(water,sky,clamp(0.12+fres*0.82,0.,1.));",
+      "    float glint=pow(max(dot(reflect(-sunDir,n),-rd),0.),140.0);",
+      "    col+=sunCol*glint*1.6;",
+      "    float hc=wh(wp,t);",
+      "    float cur=wh(wp+vec2(0.03,0.),t)+wh(wp-vec2(0.03,0.),t)+wh(wp+vec2(0.,0.03),t)+wh(wp-vec2(0.,0.03),t)-4.0*hc;",
+      "    col+=vec3(1.0)*clamp(cur*22.0,0.,1.)*0.10;",
+      "    float f=1.0-exp(-m*0.028);",
+      "    col=mix(col,fog,f*0.62);",
+      "  }else{",
+      "    float h=clamp(rd.y,0.,1.);",
+      "    col=mix(skyHor,skyTop,pow(h,0.42));",
+      "    float sd=max(dot(rd,sunDir),0.);",
+      "    col+=sunCol*pow(sd,380.0)*6.0;",
+      "    col+=sunCol*pow(sd,10.0)*0.28;",
+      "    col+=sunCol*pow(sd,3.0)*0.06;",
+      "    col+=fog*exp(-abs(rd.y)*26.0)*0.10;",
+      "  }",
+      "  float hb=smoothstep(-0.012,0.012,rd.y);",
+      "  col=mix(mix(col,fog,0.35),col,hb);",
+      "  float vig=smoothstep(1.25,0.35,length(uv));",
+      "  col*=0.55+0.45*vig;",
+      "  col+=(hash(gl_FragCoord.xy+t*47.0)-0.5)*0.02;",
+      "  gl_FragColor=vec4(clamp(col,0.,1.),1.0);",
+      "}"
+    ].join("\n");
+
+    function sh(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(s)); return null;
+      }
+      return s;
+    }
+    var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
+    if (!vs || !fs) { cv.style.display = "none"; return; }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(prog)); cv.style.display = "none"; return;
+    }
+    gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, "p");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    var uRes = gl.getUniformLocation(prog, "uRes");
+    var uTime = gl.getUniformLocation(prog, "uTime");
+    var DPR = Math.min(window.devicePixelRatio || 1, 1.25);
+
+    function resize() {
+      var r = host.getBoundingClientRect();
+      var w = Math.max(1, Math.round(r.width * DPR));
+      var h = Math.max(1, Math.round(r.height * DPR));
+      if (cv.width !== w || cv.height !== h) {
+        cv.width = w; cv.height = h;
+        gl.viewport(0, 0, w, h);
+        gl.uniform2f(uRes, w, h);
+      }
+    }
+
+    var t0 = performance.now();
+    function render(now) {
+      gl.uniform1f(uTime, (now - t0) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    var raf = 0, running = false;
+    function loop(now) {
+      if (!running) return;
+      render(now);
+      raf = window.requestAnimationFrame(loop);
+    }
+    function start() { if (!running) { running = true; raf = window.requestAnimationFrame(loop); } }
+    function stop() { running = false; if (raf) window.cancelAnimationFrame(raf); }
+
+    resize();
+    render(performance.now());
+    window.addEventListener("resize", function () { resize(); if (!running) render(performance.now()); }, { passive: true });
+
+    if (reduce) return;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { e.isIntersecting ? start() : stop(); });
+      }, { threshold: 0.01 }).observe(host);
+    } else {
+      start();
+    }
+  })();
 })();
