@@ -265,135 +265,204 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .card h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .card p { margin: 0; font-size: 0.95rem; }
 
-/* ---- linha do tempo isométrica (CSS puro) ---- */
+/* ---- linha do tempo isométrica ----
+   Porte fiel do CodePen "Isometric timeline" de Timur Bilalov (Tims101):
+   a linha gira 30°, os pontos ficam retos (contra-rotação) e os rótulos usam
+   skewY para o efeito isométrico. Tema adaptado ao fundo escuro do site. */
 .iso-tl {
-  --ang: 20deg;
-  --accent-tl: #7fbfff;
+  --tl-line: #8aa0d8;
+  --tl-hover: #b9ccff;
+  --tl-date: #9db4d6;
   margin: 40px 0 0;
-  padding: clamp(300px, 34vw, 372px) 60px 14px 56px;
+  padding: clamp(230px, 30vw, 300px) 30px 36px clamp(150px, 17vw, 220px);
+  height: clamp(330px, 34vw, 430px);
+  box-sizing: content-box;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 60px), transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 60px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 40px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 40px), transparent 100%);
 }
 .iso-tl::-webkit-scrollbar { width: 0; height: 0; }
-.iso-tl__rail {
-  display: inline-flex;
-  align-items: flex-end;
-  transform: rotate(calc(-1 * var(--ang)));
-  transform-origin: left bottom;
-  border-top: 1px solid rgba(127, 191, 255, 0.4);
-  white-space: nowrap;
-}
-.iso-tl__point {
+
+.pw-timeline { position: relative; z-index: 10; }
+
+.pw-timeline__line {
   position: relative;
-  flex: none;
-  width: var(--gap, 96px);
+  font-size: 16px;
+  transform: rotateZ(30deg);
+  transform-origin: 0% 0%;
+  margin-left: 50px;
+  margin-top: 50px;
+  display: inline-block;
+}
+.pw-timeline__line:before {
+  position: absolute;
   height: 1px;
+  display: block;
+  width: 100%;
+  background: var(--tl-line);
+  content: " ";
+  top: 0;
+  margin-top: 0.5em;
 }
-.iso-tl__dot {
+
+.pw-timeline-point {
+  position: relative;
+  margin-right: 50px;
+  padding-top: 2em;
+  display: inline-block;
+  color: var(--fg);
+  text-decoration: none;
+}
+.pw-timeline-point:hover { cursor: pointer; }
+.pw-timeline-point:before {
+  content: " ";
+  width: 1em;
+  height: 1em;
+  background: var(--tl-line);
+  border-radius: 1em;
   position: absolute;
-  left: -5px;
-  top: -6px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--accent-tl);
+  top: 0;
   z-index: 2;
+  transition: 0.2s all;
 }
-.iso-tl__year {
-  position: absolute;
-  left: 13px;
-  top: 2px;
-  transform: rotate(var(--ang));
-  transform-origin: left top;
-  font-size: 0.76rem;
-  letter-spacing: 0.05em;
-  color: #8fa1b5;
-}
-/* prumo vertical (na tela) ligando o ponto ao cartão */
-.iso-tl__point::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 1px;
-  height: calc(18px + var(--lvl, 1) * 32px);
-  background: rgba(127, 191, 255, 0.3);
-  transform: rotate(var(--ang));
-  transform-origin: left bottom;
-}
-.iso-tl__card {
-  position: absolute;
-  left: 3px;
-  bottom: calc(18px + var(--lvl, 1) * 32px);
-  transform: rotate(var(--ang)) skewY(calc(-1 * var(--ang)));
-  transform-origin: left bottom;
-  width: max-content;
-  max-width: 190px;
-  padding: 8px 12px;
-  background: rgba(12, 22, 36, 0.92);
-  border: 1px solid rgba(127, 191, 255, 0.22);
-  border-radius: 6px;
-}
-.iso-tl__card--now {
-  background: var(--accent-tl);
-  border-color: transparent;
-}
-.iso-tl__title {
-  margin: 0;
+.pw-timeline-point:hover:before { background: var(--tl-hover); }
+.pw-timeline-point_small:before { display: none; }
+
+.pw-timeline-point__date {
+  transform: rotateZ(-30deg);
+  display: block;
+  transform-origin: 0% 0%;
+  margin-left: 34%;
   font-size: 0.9rem;
-  font-weight: 600;
-  color: #e7edf5;
-  white-space: nowrap;
+  color: var(--tl-date);
 }
-.iso-tl__meta {
-  margin: 2px 0 0;
-  font-size: 0.78rem;
-  color: var(--accent-tl);
-  white-space: nowrap;
+.pw-timeline-point_small .pw-timeline-point__date { visibility: hidden; }
+
+.pw-timeline-label {
+  transform-origin: 0;
+  display: inline-block;
+  position: absolute;
+  text-align: right;
+  margin-left: 100%;
+  height: 0;
+  overflow: visible;
 }
-.iso-tl__card--now .iso-tl__title,
-.iso-tl__card--now .iso-tl__meta { color: #06121f; }
-.iso-tl__point--now .iso-tl__dot { background: var(--accent-tl); box-shadow: 0 0 0 4px rgba(127, 191, 255, 0.25); }
+.pw-timeline-label:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  bottom: -200px;
+  width: 1px;
+  border-right: 1px solid var(--tl-line);
+  right: 0;
+  top: -10px;
+  transition: 0.2s all;
+  z-index: 1;
+}
+.pw-timeline-point:hover .pw-timeline-label:after { border-right-color: var(--tl-hover); }
+
+.pw-timeline-label__content {
+  transform: skewY(-30deg);
+  display: block;
+  padding: 4px 8px;
+  background: var(--bg);
+  border-radius: 4px;
+}
+.pw-timeline-label__content_hire-me {
+  background: var(--tl-line);
+  color: #06121f;
+  transition: 0.2s all;
+  padding: 10px;
+  margin-top: -3px;
+}
+.pw-timeline-point:hover .pw-timeline-label__content_hire-me { background: var(--tl-hover); }
+
+.pw-timeline-label__date { color: var(--tl-date); }
+.pw-timeline-label__title,
+.pw-timeline-label__date { white-space: nowrap; margin: 0; }
+.pw-timeline-label__title { font-weight: 600; font-size: 0.92rem; }
+.pw-timeline-label__date { font-size: 0.8rem; }
+
+.pw-timeline-label_z { text-align: left; }
+.pw-timeline-label_z .pw-timeline-label__content { transform: skewY(-30deg) translateX(100%); }
+.pw-timeline-label_x .pw-timeline-label__content { transform: skewY(30deg); }
+.pw-timeline-label_y .pw-timeline-label__content {
+  transform: skewY(30deg) translateX(100%) translateY(0);
+  text-align: left;
+}
+
+.pw-timeline-label_x:after { top: 35px; }
+.pw-timeline-label_y:after { top: 45px; }
+.pw-timeline-label_z:after { top: -25px; }
+
+.pw-timeline-label_top-200 { transform: rotateZ(-30deg) translateX(calc(-100% + 1em / 2)) translateY(-200px); }
+.pw-timeline-label_top-200:after { bottom: -152px; }
+.pw-timeline-label_top-250 { transform: rotateZ(-30deg) translateX(calc(-100% + 1em / 2)) translateY(-250px); }
+.pw-timeline-label_top-250:after { bottom: -202px; }
+.pw-timeline-label_top-300 { transform: rotateZ(-30deg) translateX(calc(-100% + 1em / 2)) translateY(-300px); }
+.pw-timeline-label_top-300:after { bottom: -252px; }
+.pw-timeline-label_top-350 { transform: rotateZ(-30deg) translateX(calc(-100% + 1em / 2)) translateY(-350px); }
+.pw-timeline-label_top-350:after { bottom: -302px; }
+
+.hire-me { text-decoration: underline; }
 
 /* telas estreitas: sem isometria, linha do tempo vertical simples */
 @media (max-width: 900px) {
   .iso-tl {
     padding: 8px 0 0;
+    height: auto;
     overflow: visible;
     margin: 28px 0 0;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
-  .iso-tl__rail {
-    display: block;
+  .pw-timeline__line {
     transform: none;
-    border-top: 0;
-    border-left: 1px solid rgba(127, 191, 255, 0.35);
-    margin-left: 5px;
-    white-space: normal;
+    display: block;
+    margin: 0;
+    border-left: 1px solid var(--tl-line);
+    padding-left: 22px;
   }
-  .iso-tl__point {
-    width: auto;
+  .pw-timeline__line:before { display: none; }
+  .pw-timeline-point {
+    display: block;
+    margin: 0 0 22px;
+    padding-top: 0;
+  }
+  .pw-timeline-point:before { left: -27px; top: 2px; }
+  .pw-timeline-point_small:before { display: block; background: var(--bg); box-shadow: 0 0 0 1px var(--tl-line); }
+  .pw-timeline-point__date {
+    transform: none;
+    margin: 0 0 4px;
+    visibility: visible;
+    font-weight: 600;
+    color: var(--tl-date);
+  }
+  .pw-timeline-label {
+    position: static;
+    transform: none !important;
+    margin: 0;
     height: auto;
-    padding: 0 0 22px 22px;
+    text-align: left;
   }
-  .iso-tl__point::before { display: none; }
-  .iso-tl__dot { left: -6px; top: 4px; }
-  .iso-tl__year {
-    position: static;
-    display: block;
+  .pw-timeline-label:after { display: none; }
+  .pw-timeline-label__content,
+  .pw-timeline-label_z .pw-timeline-label__content,
+  .pw-timeline-label_x .pw-timeline-label__content,
+  .pw-timeline-label_y .pw-timeline-label__content {
     transform: none;
-    margin-bottom: 4px;
+    padding: 0;
+    background: none;
   }
-  .iso-tl__card {
-    position: static;
-    transform: none;
-    max-width: none;
-    width: auto;
+  .pw-timeline-label__content_hire-me {
+    display: inline-block;
+    padding: 8px 10px;
+    margin-top: 4px;
   }
-  .iso-tl__title, .iso-tl__meta { white-space: normal; }
+  .pw-timeline-label__title, .pw-timeline-label__date { white-space: normal; }
 }
 
 /* ---- seção de contato + fundo animado ---- */

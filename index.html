@@ -66,63 +66,74 @@
           </div>
         </div>
 
-        <!-- Linha do tempo isométrica (CSS puro). Efeito inspirado no CodePen
-             "Isometric timeline" de Timur Bilalov. Edite as datas/títulos.
-             --gap: distância até o próximo ponto · --lvl: altura do cartão (1–4) -->
-        <div class="iso-tl" role="list" aria-label="Linha do tempo">
-          <div class="iso-tl__rail">
-            <div class="iso-tl__point" role="listitem" style="--gap: 100px; --lvl: 5">
-              <span class="iso-tl__dot"></span>
-              <span class="iso-tl__year">2015</span>
-              <div class="iso-tl__card">
-                <p class="iso-tl__title">Comecei a programar</p>
-                <p class="iso-tl__meta">2015</p>
-              </div>
-            </div>
+        <!-- Linha do tempo isométrica — porte fiel do CodePen "Isometric
+             timeline" de Timur Bilalov (Tims101). CSS puro. Edite datas/títulos.
+             Modificadores do rótulo: _x / _y / _z giram o texto; _top-N sobe o
+             rótulo N px. -->
+        <div class="iso-tl" aria-label="Linha do tempo">
+          <div class="pw-timeline">
+            <div class="pw-timeline__line">
+              <a class="pw-timeline-point" style="margin-right: 90px">
+                <span class="pw-timeline-point__date">2015</span>
+                <div class="pw-timeline-label pw-timeline-label_top-200">
+                  <div class="pw-timeline-label__content">
+                    <p class="pw-timeline-label__title">Comecei a programar</p>
+                    <p class="pw-timeline-label__date">2015</p>
+                  </div>
+                </div>
+              </a>
 
-            <div class="iso-tl__point" role="listitem" style="--gap: 100px; --lvl: 4">
-              <span class="iso-tl__dot"></span>
-              <span class="iso-tl__year">2017</span>
-              <div class="iso-tl__card">
-                <p class="iso-tl__title">Primeiro emprego</p>
-                <p class="iso-tl__meta">Desenvolvedor · fev 2017</p>
-              </div>
-            </div>
+              <a class="pw-timeline-point" style="margin-right: 110px">
+                <span class="pw-timeline-point__date">2017</span>
+                <div class="pw-timeline-label pw-timeline-label_z pw-timeline-label_top-250">
+                  <div class="pw-timeline-label__content">
+                    <p class="pw-timeline-label__title">Primeiro emprego</p>
+                    <p class="pw-timeline-label__date">fev 2017</p>
+                    <p class="pw-timeline-label__title">Desenvolvedor</p>
+                  </div>
+                </div>
+              </a>
 
-            <div class="iso-tl__point" role="listitem" style="--gap: 100px; --lvl: 4">
-              <span class="iso-tl__dot"></span>
-              <span class="iso-tl__year">2019</span>
-              <div class="iso-tl__card">
-                <p class="iso-tl__title">Formação</p>
-                <p class="iso-tl__meta">jul 2019</p>
-              </div>
-            </div>
+              <a class="pw-timeline-point" style="margin-right: 90px">
+                <span class="pw-timeline-point__date">2019</span>
+                <div class="pw-timeline-label pw-timeline-label_top-200">
+                  <div class="pw-timeline-label__content">
+                    <p class="pw-timeline-label__title">Formação</p>
+                    <p class="pw-timeline-label__date">jul 2019</p>
+                  </div>
+                </div>
+              </a>
 
-            <div class="iso-tl__point" role="listitem" style="--gap: 100px; --lvl: 2">
-              <span class="iso-tl__dot"></span>
-              <span class="iso-tl__year">2021</span>
-              <div class="iso-tl__card">
-                <p class="iso-tl__title">Desenvolvedor Frontend</p>
-                <p class="iso-tl__meta">2021</p>
-              </div>
-            </div>
+              <a class="pw-timeline-point pw-timeline-point_small" style="margin-right: 20px">
+                <span class="pw-timeline-point__date">2021</span>
+                <div class="pw-timeline-label pw-timeline-label_x pw-timeline-label_top-350">
+                  <div class="pw-timeline-label__content">
+                    <p class="pw-timeline-label__title">Desenvolvedor Frontend</p>
+                    <p class="pw-timeline-label__date">2021</p>
+                  </div>
+                </div>
+              </a>
 
-            <div class="iso-tl__point" role="listitem" style="--gap: 100px; --lvl: 1">
-              <span class="iso-tl__dot"></span>
-              <span class="iso-tl__year">2023</span>
-              <div class="iso-tl__card">
-                <p class="iso-tl__title">Desenvolvedor Sênior</p>
-                <p class="iso-tl__meta">2023</p>
-              </div>
-            </div>
+              <a class="pw-timeline-point" style="margin-right: 100px">
+                <span class="pw-timeline-point__date">2023</span>
+                <div class="pw-timeline-label pw-timeline-label_z pw-timeline-label_top-300">
+                  <div class="pw-timeline-label__content">
+                    <p class="pw-timeline-label__title">Desenvolvedor Sênior</p>
+                    <p class="pw-timeline-label__date">2023</p>
+                  </div>
+                </div>
+              </a>
 
-            <div class="iso-tl__point iso-tl__point--now" role="listitem" style="--gap: 28px; --lvl: 0">
-              <span class="iso-tl__dot"></span>
-              <span class="iso-tl__year">hoje</span>
-              <div class="iso-tl__card iso-tl__card--now">
-                <p class="iso-tl__title">Aberto a novos projetos</p>
-                <p class="iso-tl__meta">bora conversar?</p>
-              </div>
+              <a class="pw-timeline-point pw-timeline-point_small" style="margin-right: 10px"
+                 href="https://wa.me/5511986156202" rel="noopener" target="_blank">
+                <span class="pw-timeline-point__date">hoje</span>
+                <div class="pw-timeline-label pw-timeline-label_y pw-timeline-label_top-200">
+                  <div class="pw-timeline-label__content pw-timeline-label__content_hire-me">
+                    <p class="pw-timeline-label__title">Aberto a novos projetos</p>
+                    <p class="pw-timeline-label__title hire-me">Bora conversar?</p>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
