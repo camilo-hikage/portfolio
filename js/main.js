@@ -230,4 +230,150 @@
       }
     }
   }
+
+  /* ============================================================
+     FUNDO DO SOBRE — Canvas 2D: disco de acreção de um buraco
+     negro. Partículas em órbita kepleriana projetadas numa elipse,
+     com brilho Doppler (lado que se aproxima fica mais quente) e o
+     horizonte de eventos ocultando a metade de trás do disco.
+     Recriação própria, inspirada no CodePen "The Life of a
+     Singularity" de VoXelo (three.js).
+     ============================================================ */
+  var bh = document.getElementById("sobre-bg");
+  if (bh && bh.getContext) {
+    var bctx = bh.getContext("2d");
+    var bhost = bh.closest(".sobre") || bh.parentElement;
+    var BDPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    var bw = 1, bh_h = 1, bcx = 0, bcy = 0, bR = 1, bIn = 1, bOut = 1;
+    var TILT = 0.30;
+    var N = 1600;
+    var disk = [];
+
+    function bhResize() {
+      var r = bhost.getBoundingClientRect();
+      bw = Math.max(1, r.width);
+      bh_h = Math.max(1, r.height);
+      bh.width = Math.round(bw * BDPR);
+      bh.height = Math.round(bh_h * BDPR);
+      bctx.setTransform(BDPR, 0, 0, BDPR, 0, 0);
+      bR = Math.min(bw, bh_h);
+      bcx = bw * (bw > 720 ? 0.66 : 0.5);
+      bcy = bh_h * 0.46;
+      bIn = bR * 0.055;
+      bOut = bR * 0.44;
+    }
+
+    function bhInit() {
+      disk.length = 0;
+      for (var i = 0; i < N; i++) {
+        var u = Math.pow(Math.random(), 1.35); // 0 interno .. 1 externo
+        disk.push({
+          u: u,
+          a: Math.random() * Math.PI * 2,
+          spd: (0.55 / Math.pow(0.16 + u, 1.4)) * (0.85 + Math.random() * 0.3),
+          j: (Math.random() - 0.5) * (1 - u)
+        });
+      }
+    }
+
+    function mix(a, b, t) { return a + (b - a) * t; }
+    function sstep(e0, e1, x) {
+      var t = (x - e0) / (e1 - e0);
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      return t * t * (3 - 2 * t);
+    }
+
+    function bhParticle(p, x, y) {
+      var warm = sstep(1.0, 0.22, p.u);
+      var hot = sstep(0.32, 0.0, p.u);
+      var cr = mix(60, 255, warm), cg = mix(120, 120, warm), cb = mix(255, 30, warm);
+      cr = mix(cr, 255, hot); cg = mix(cg, 240, hot); cb = mix(cb, 225, hot);
+      var dop = Math.cos(p._ang - Math.PI / 2);     // +1 no lado que se aproxima
+      var bright = (0.55 + (1 - p.u) * 0.6) * (0.6 + 0.55 * dop);
+      var alpha = (0.05 + (1 - p.u) * 0.20) * (0.65 + 0.55 * dop);
+      if (alpha < 0.004) return;
+      var vx = -Math.sin(p._ang), vy = Math.cos(p._ang) * TILT;
+      var vl = Math.hypot(vx, vy) || 1;
+      var len = 2.5 + (1 - p.u) * 9;
+      bctx.strokeStyle = "rgba(" +
+        (cr * bright | 0) + "," + (cg * bright | 0) + "," + (cb * bright | 0) + "," + alpha.toFixed(3) + ")";
+      bctx.lineWidth = 0.6 + (1 - p.u) * 1.1;
+      bctx.beginPath();
+      bctx.moveTo(x, y);
+      bctx.lineTo(x - vx / vl * len, y - vy / vl * len);
+      bctx.stroke();
+    }
+
+    function bhDraw(t) {
+      bctx.clearRect(0, 0, bw, bh_h);
+      bctx.globalCompositeOperation = "lighter";
+      bctx.lineCap = "round";
+
+      var i, p, rr, x, y, front = [];
+      for (i = 0; i < disk.length; i++) {
+        p = disk[i];
+        p._ang = p.a + t * p.spd;
+        rr = bIn + p.u * (bOut - bIn);
+        x = bcx + Math.cos(p._ang) * rr;
+        y = bcy + Math.sin(p._ang) * rr * TILT + p.j * 6;
+        if (Math.sin(p._ang) <= 0) bhParticle(p, x, y);   // metade de trás
+        else front.push([p, x, y]);
+      }
+
+      // horizonte de eventos + halo
+      var halo = bctx.createRadialGradient(bcx, bcy, bIn * 0.5, bcx, bcy, bIn * 3.4);
+      halo.addColorStop(0, "rgba(255,150,60,0.55)");
+      halo.addColorStop(0.5, "rgba(255,90,30,0.16)");
+      halo.addColorStop(1, "rgba(255,90,30,0)");
+      bctx.fillStyle = halo;
+      bctx.beginPath();
+      bctx.arc(bcx, bcy, bIn * 3.4, 0, Math.PI * 2);
+      bctx.fill();
+
+      bctx.globalCompositeOperation = "source-over";
+      bctx.fillStyle = "#000";
+      bctx.beginPath();
+      bctx.ellipse(bcx, bcy, bIn, bIn, 0, 0, Math.PI * 2);
+      bctx.fill();
+
+      bctx.globalCompositeOperation = "lighter";
+      for (i = 0; i < front.length; i++) bhParticle(front[i][0], front[i][1], front[i][2]);
+
+      bctx.globalCompositeOperation = "source-over";
+    }
+
+    var bhRun = false, bhLast = 0, bhT = 0;
+    function bhFrame(now) {
+      if (!bhRun) return;
+      var dt = Math.min(0.05, (now - bhLast) / 1000 || 0);
+      bhLast = now;
+      bhT += dt * 0.35;
+      bhDraw(bhT);
+      window.requestAnimationFrame(bhFrame);
+    }
+    function bhStart() {
+      if (bhRun) return;
+      bhRun = true; bhLast = performance.now();
+      window.requestAnimationFrame(bhFrame);
+    }
+    function bhStop() { bhRun = false; }
+
+    bhResize();
+    bhInit();
+    bhDraw(bhT);
+    window.addEventListener("resize", function () {
+      bhResize();
+      if (!bhRun) bhDraw(bhT);
+    }, { passive: true });
+
+    if (!reduce) {
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { e.isIntersecting ? bhStart() : bhStop(); });
+        }, { threshold: 0.01 }).observe(bhost);
+      } else {
+        bhStart();
+      }
+    }
+  }
 })();

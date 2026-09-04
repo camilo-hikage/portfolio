@@ -221,6 +221,20 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 }
 .section p { color: var(--muted); max-width: 60ch; }
 
+/* Fundo animado do Sobre: disco de acreção (Canvas 2D, efeito próprio) */
+.sobre { position: relative; overflow: hidden; isolation: isolate; }
+.sobre__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.sobre .wrap { position: relative; z-index: 1; }
+
 /* Sobre em duas colunas (igual ao Contato) */
 .sobre__grid {
   display: grid;
